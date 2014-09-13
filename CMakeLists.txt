@@ -122,6 +122,8 @@ add_dependencies(message_store mongodb_store_msgs_generate_messages_cpp )
 
 target_link_libraries(message_store
   mongoclient
+  ssl
+  crypto
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
 )
@@ -132,6 +134,8 @@ target_link_libraries(message_store
 target_link_libraries(example_mongodb_store_cpp_client
   message_store
   mongoclient
+  ssl
+  crypto
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
 )
@@ -139,6 +143,8 @@ target_link_libraries(example_mongodb_store_cpp_client
 target_link_libraries(example_multi_event_log
   message_store
   mongoclient
+  ssl
+  crypto
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
 )
@@ -146,25 +152,13 @@ target_link_libraries(example_multi_event_log
 target_link_libraries(example_multi_event_log
   message_store
   mongoclient
+  ssl
+  crypto
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
 )
 
-# target_link_libraries(pc_test
-#    message_store
-#   mongoclient
-#   ${catkin_LIBRARIES}
-#   ${Boost_LIBRARIES}
-# )
 
-catkin_add_gtest(mongodb_store_cpp_test tests/mongodb_store_cpp_test.cpp)
-
-target_link_libraries(mongodb_store_cpp_test
-  message_store 
-  mongoclient
-  ${catkin_LIBRARIES}
-  ${Boost_LIBRARIES}
-)
 
 #############
 ## Install ##
@@ -194,3 +188,29 @@ install(DIRECTORY include/mongodb_store/
   PATTERN ".svn" EXCLUDE
 )
 
+
+## Add gtest based cpp test target and link libraries
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_mongodb_store.cpp)
+# if(TARGET ${PROJECT_NAME}-test)
+#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
+# endif()
+
+## Add folders to be run by python nosetests
+# catkin_add_nosetests(unittests/test_messagestore.py)
+
+
+if (CATKIN_ENABLE_TESTING)
+  find_package(catkin REQUIRED COMPONENTS rostest)
+
+  add_executable(message_store_cpp_test tests/message_store_cpp_test.cpp)
+
+  target_link_libraries(message_store_cpp_test
+  message_store 
+  mongoclient
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
+  gtest
+)
+
+  add_rostest(tests/message_store_cpp_client.test)
+endif()
