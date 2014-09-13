@@ -2,6 +2,11 @@
 Changelog for package mongodb_log
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.4 (2014-09-13)
+------------------
+* added libssl and libcrypto for ubuntu distros where this is needed due to the static nature of the libmongoclient.a
+* Contributors: Marc Hanheide
+
 0.0.3 (2014-08-18)
 ------------------
 * Renamed rosparams `datacentre_` to `mongodb_`.
