@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>mongodb_store</name>
-  <version>0.0.3</version>
+  <version>0.0.4</version>
   <description>A MongoDB based central store for data from a ROS system, eg. configurations, logged states, etc</description>
 
   <maintainer email="cburbridge@gmail.com">Chris Curbridge</maintainer>
@@ -21,6 +21,7 @@
   <build_depend>mongodb_store_msgs</build_depend>
   <build_depend>rostest</build_depend>
   <build_depend>python-catkin-pkg</build_depend>
+  <build_depend>mongodb</build_depend>
 
   <run_depend>rospy</run_depend>
   <run_depend>std_msgs</run_depend>
