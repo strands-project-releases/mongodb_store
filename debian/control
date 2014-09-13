@@ -1,0 +1,12 @@
+Source: ros-hydro-mongodb-store
+Section: misc
+Priority: extra
+Maintainer: Chris Curbridge <cburbridge@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), mongodb, python-catkin-pkg, ros-hydro-catkin, ros-hydro-message-generation, ros-hydro-mongodb-store-msgs, ros-hydro-rospy, ros-hydro-rostest, ros-hydro-std-msgs, ros-hydro-std-srvs
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-hydro-mongodb-store
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pymongo, ros-hydro-mongodb-store-msgs, ros-hydro-rospy, ros-hydro-std-msgs, ros-hydro-std-srvs
+Description: A MongoDB based central store for data from a ROS system, eg. configurations, logged states, etc
