@@ -2,6 +2,13 @@
 Changelog for package mongodb_store
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.5 (2014-10-09)
+------------------
+* Added install target for launch file.
+* Fix maintainer in package.xml
+* Update package.xml
+* Contributors: Chris Burbridge, Marc Hanheide, Nick Hawes
+
 0.0.4 (2014-09-13)
 ------------------
 * added mongod
