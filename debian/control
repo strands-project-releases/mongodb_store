@@ -1,0 +1,12 @@
+Source: ros-hydro-mongodb-store
+Section: misc
+Priority: extra
+Maintainer: Chris Burbridge <cburbridge@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), libmongo-client-dev, libssl-dev, mongodb, mongodb-dev, python-catkin-pkg, ros-hydro-catkin, ros-hydro-geometry-msgs, ros-hydro-message-generation, ros-hydro-mongodb-store-msgs, ros-hydro-roscpp, ros-hydro-rospy, ros-hydro-rostest, ros-hydro-std-msgs, ros-hydro-std-srvs
+Homepage: http://www.ros.org/wiki/mongodb_store
+Standards-Version: 3.9.2
+
+Package: ros-hydro-mongodb-store
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pymongo, ros-hydro-geometry-msgs, ros-hydro-mongodb-store-msgs, ros-hydro-roscpp, ros-hydro-rospy, ros-hydro-std-msgs, ros-hydro-std-srvs
+Description: A package to support MongoDB-based storage and analysis for data from a ROS system, eg. saved messages, configurations etc
