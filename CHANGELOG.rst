@@ -2,6 +2,11 @@
 Changelog for package mongodb_store_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.4 (2014-10-29)
+------------------
+* add sort option on query
+* Contributors: Furushchev
+
 0.1.3 (2014-10-21)
 ------------------
 
