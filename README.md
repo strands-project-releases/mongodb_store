@@ -1,3 +1,27 @@
+## mongodb_store (indigo) - 0.1.5-0
+
+The packages in the `mongodb_store` repository were released into the `indigo` distro by running `/usr/bin/bloom-release mongodb_store -t indigo -r indigo` on `Wed, 05 Nov 2014 20:21:19 -0000`
+
+These packages were released:
+- `mongodb_log`
+- `mongodb_store`
+- `mongodb_store_msgs`
+
+Version of package(s) in repository `mongodb_store`:
+- upstream repository: https://github.com/strands-project/mongodb_store.git
+- release repository: https://github.com/strands-project-releases/mongodb_store.git
+- rosdistro version: `0.1.4-0`
+- old version: `0.1.4-0`
+- new version: `0.1.5-0`
+
+Versions of tools used:
+- bloom version: `0.5.12`
+- catkin_pkg version: `0.2.6`
+- rosdep version: `0.10.32`
+- rosdistro version: `0.3.6`
+- vcstools version: `0.1.35`
+
+
 ## mongodb_store (hydro) - 0.1.5-0
 
 The packages in the `mongodb_store` repository were released into the `hydro` distro by running `/usr/bin/bloom-release mongodb_store -t hydro -r hydro` on `Wed, 05 Nov 2014 20:19:19 -0000`
