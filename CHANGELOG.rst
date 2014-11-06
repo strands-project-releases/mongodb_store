@@ -2,6 +2,26 @@
 Changelog for package mongodb_store
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.6 (2014-11-06)
+------------------
+* Launch file to right place this time.
+  It seems like the syntax is doing different things in different CMake files though.
+* fixing launch file order
+* Merge branch 'hydro-devel' of https://github.com/strands-project/mongodb_store into hydro-devel
+  Conflicts:
+  mongodb_store/launch/mongodb_store.launch
+* replacing env for optenv
+* Fixed spacing and author info
+* Changing launch file to adjust to new machine tag type
+* Changing launch file to adjust to new machine tag type
+* Contributors: Jailander, Jaime Pulido, Jaime Pulido Fentanes, Nick Hawes
+
+0.1.5 (2014-11-05)
+------------------
+* Changing the installed location of launch file.
+* Added test_mode to launch file.
+* Contributors: Nick Hawes
+
 0.1.4 (2014-10-29)
 ------------------
 * Removed debugging message.
