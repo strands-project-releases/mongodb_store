@@ -2,6 +2,9 @@
 Changelog for package mongodb_log
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.10 (2014-11-23)
+-------------------
+
 0.1.9 (2014-11-18)
 ------------------
 * Use rospy to remove additional arguments when launched via roslaunch
