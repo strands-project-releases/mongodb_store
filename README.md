@@ -1,3 +1,27 @@
+## mongodb_store (hydro) - 0.1.12-1
+
+The packages in the `mongodb_store` repository were released into the `hydro` distro by running `/usr/bin/bloom-release mongodb_store -r hydro -t hydro` on `Mon, 09 Feb 2015 16:59:00 -0000`
+
+These packages were released:
+- `mongodb_log`
+- `mongodb_store`
+- `mongodb_store_msgs`
+
+Version of package(s) in repository `mongodb_store`:
+- upstream repository: https://github.com/strands-project/mongodb_store.git
+- release repository: https://github.com/strands-project-releases/mongodb_store.git
+- rosdistro version: `0.1.3-1`
+- old version: `0.1.12-0`
+- new version: `0.1.12-1`
+
+Versions of tools used:
+- bloom version: `0.5.17`
+- catkin_pkg version: `0.2.6`
+- rosdep version: `0.11.1`
+- rosdistro version: `0.4.0`
+- vcstools version: `0.1.36`
+
+
 ## mongodb_store (hydro) - 0.1.12-0
 
 The packages in the `mongodb_store` repository were released into the `hydro` distro by running `/usr/bin/bloom-release --non-interactive -t hydro -r hydro mongodb_store` on `Mon, 09 Feb 2015 16:47:53 -0000`
