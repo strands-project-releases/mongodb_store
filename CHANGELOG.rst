@@ -2,6 +2,37 @@
 Changelog for package mongodb_store
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.12 (2015-02-09)
+-------------------
+
+0.1.11 (2015-02-09)
+-------------------
+* add switch option to use machine tag
+* Contributors: Furushchev
+
+0.1.10 (2014-11-23)
+-------------------
+* Replication now has db configurable.
+  This fixes `#54 <https://github.com/strands-project/mongodb_store/issues/54>`_.
+* Added queue_size for indigo
+* Contributors: Nick Hawes
+
+0.1.9 (2014-11-18)
+------------------
+
+0.1.8 (2014-11-11)
+------------------
+* use underscore_separation instead of camelCase
+* add launch as replSet option
+* Fix `#52 <https://github.com/strands-project/mongodb_store/issues/52>`_
+* Contributors: Furushchev, lucasb-eyer
+
+0.1.7 (2014-11-09)
+------------------
+* final and tested version of loader
+* latest version of machine tags in launch file
+* Contributors: Jaime Pulido Fentanes
+
 0.1.6 (2014-11-06)
 ------------------
 * Launch file to right place this time.
