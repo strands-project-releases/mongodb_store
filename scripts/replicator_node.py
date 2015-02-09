@@ -21,7 +21,8 @@ class Replicator(object):
     def __init__(self):
 
         # don't start up until master is there
-        rospy.wait_for_service('/datacentre/wait_ready')
+        if not mongodb_store.util.wait_for_mongo():
+            raise Exception("No Datacentre?")
 
         # this is just a test, connections are remade every call for long-running processes
         master, extras = self.make_connections()
@@ -88,13 +89,13 @@ class Replicator(object):
         less_time_time = rospy.get_rostime() - goal.move_before
 
         for collection in goal.collections.data:                    
-            self.do_dump(collection, master, less_time_time)
+            self.do_dump(collection, master, less_time_time, db=goal.database)
 
-        self.do_restore(extras)
+        self.do_restore(extras, db=goal.database)
 
         if goal.delete_after_move:  
             for collection in goal.collections.data:                    
-                self.do_delete(collection, master, less_time_time)
+                self.do_delete(collection, master, less_time_time, db=goal.database)
 
         # clean up
         self.remove_path()
