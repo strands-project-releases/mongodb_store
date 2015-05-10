@@ -2,6 +2,9 @@
 Changelog for package mongodb_log
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.15 (2015-05-10)
+-------------------
+
 0.1.14 (2015-04-27)
 -------------------
 * Adding install targets for mongodb_log
