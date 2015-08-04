@@ -2,6 +2,15 @@
 Changelog for package mongodb_store
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.16 (2015-08-04)
+-------------------
+* use False as default value of param 'mongodb_use_daemon'
+* add option to use already launched mongod
+* Fix exception catch.
+* Silence wait_for_service.
+  This adds some more helpful output if the messages store services can't be found, but produces no output if they are found within 5 seconds.
+* Contributors: Chris Burbridge, Yuki Furuta
+
 0.1.15 (2015-05-10)
 -------------------
 * Add dump path as parameter.
