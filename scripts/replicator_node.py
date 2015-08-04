@@ -21,9 +21,17 @@ class Replicator(object):
     def __init__(self):
 
         # don't start up until master is there
-        if not mongodb_store.util.wait_for_mongo():
-            raise Exception("No Datacentre?")
-
+        use_daemon = rospy.get_param('mongodb_use_daemon', False)
+        self.master_db_host = rospy.get_param('mongodb_host')
+        self.master_db_port = rospy.get_param('mongodb_port')
+        if use_daemon:
+            is_daemon_alive = mongodb_store.util.check_connection_to_mongod(self.master_db_host, self.master_db_port)
+            if not is_daemon_alive:
+                raise Exception("No Daemon?")
+        else:
+            if not mongodb_store.util.wait_for_mongo():
+                raise Exception("No Datacentre?")
+        
         # this is just a test, connections are remade every call for long-running processes
         master, extras = self.make_connections()
         if master is None:
@@ -31,7 +39,8 @@ class Replicator(object):
 
         self.server = actionlib.SimpleActionServer('move_mongodb_entries', MoveEntriesAction, self.move_entries, False)
         self.server.start()
-        self.dump_path = '/tmp/mongodb_replicator'
+        self.dump_path = rospy.get_param("~replicator_dump_path", '/tmp/mongodb_replicator')
+        rospy.loginfo("Replicator node dumping to %s" % self.dump_path)
 
         self.make_path()
         self.remove_path()
@@ -47,11 +56,9 @@ class Replicator(object):
         shutil.rmtree(self.dump_path)
 
     def make_connections(self):
-        mongodb_host = rospy.get_param("mongodb_host")
-        mongodb_port = rospy.get_param("mongodb_port") 
         master = None
         try:
-            master = MongoClient(mongodb_host, mongodb_port)
+            master = MongoClient(self.master_db_host, self.master_db_port)
         except pymongo.errors.ConnectionFailure, e:
             rospy.logwarn('Could not connect to master datacentre at %s:%s' % (mongodb_host, mongodb_port))
             return None, None
@@ -66,7 +73,7 @@ class Replicator(object):
                 rospy.logwarn('Could not connect to extra datacentre at %s:%s' % (extra[0], extra[1]))
 
 
-        rospy.loginfo('Replicating content from %s:%s to a futher %s datacentres', mongodb_host, mongodb_port, len(extra_clients))
+        rospy.loginfo('Replicating content from %s:%s to a futher %s datacentres', self.master_db_host, self.master_db_port, len(extra_clients))
 
         return master, extra_clients
 
