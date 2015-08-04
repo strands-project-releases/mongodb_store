@@ -351,10 +351,10 @@ class SubprocessWorker(object):
 
 
 class MongoWriter(object):
-    def __init__(self, topics = [],
+    def __init__(self, topics = [], treat_as_regex=False,
                  all_topics = False, all_topics_interval = 5,
                  exclude_topics = [],
-                 mongodb_host=None, mongodb_port=None, mongodb_name="roslog",
+                 mongodb_host=None, mongodb_port=None, mongodb_name="roslog", mongodb_collection=None,
                  no_specific=False, nodename_prefix=""):
         self.all_topics = all_topics
         self.all_topics_interval = all_topics_interval
@@ -362,16 +362,18 @@ class MongoWriter(object):
         self.mongodb_host = mongodb_host
         self.mongodb_port = mongodb_port
         self.mongodb_name = mongodb_name
+        self.mongodb_collection = mongodb_collection
         self.no_specific = no_specific
         self.nodename_prefix = nodename_prefix
         self.quit = False
         self.topics = set()
+        self.collnames = set()
         #self.str_fn = roslib.message.strify_message
         self.sep = "\n" #'\033[2J\033[;H'
         self.in_counter = Counter()
         self.out_counter = Counter()
         self.drop_counter = Counter()
-        self.workers = {}
+        self.workers = []
 
         global use_setproctitle
         if use_setproctitle:
@@ -382,6 +384,8 @@ class MongoWriter(object):
             self.exclude_regex.append(re.compile(et))
         self.exclude_already = []
 
+        if treat_as_regex:
+            topics = self.expand_regex_to_topics(topics)
 
         self.missing_topics = self.subscribe_topics(set(topics))
         self.fill_in_topics()
@@ -393,6 +397,14 @@ class MongoWriter(object):
             self.update_topics(restart=False)
 
         self.start_all_topics_timer()
+
+    def expand_regex_to_topics(self, topics):
+        expanded_topics = []
+        published_topics = [t[0] for t in rospy.get_published_topics()]
+        for pattern in topics:
+            exp = re.compile(pattern)
+            expanded_topics += filter(lambda t: exp.match(t) is not None, published_topics)
+        return expanded_topics
 
     def subscribe_topics(self, topics):
 
@@ -421,19 +433,23 @@ class MongoWriter(object):
             # pure topic names as collection names and we could then use mongodb[topic], we want
             # to have names that go easier with the query tools, even though there is the theoretical
             # possibility of name clashes (hence the check)
-            collname = mongodb_store.util.topic_name_to_collection_name(topic)
-            if collname in self.workers.keys():
-                print("Two converted topic names clash: %s, ignoring topic %s"
-                      % (collname, topic))
+            if self.mongodb_collection:
+                collname = self.mongodb_collection
             else:
-                try:
-                    print("Adding topic %s" % topic)
-                    w = self.create_worker(len(self.workers), topic, collname)
-                    self.workers[collname] = w
-                    self.topics |= set([topic])
-                except Exception, e:
-                    print('Failed to subsribe to %s due to %s' % (topic, e))
-                    missing_topics.add(topic)
+                collname = mongodb_store.util.topic_name_to_collection_name(topic)
+                if collname in self.collnames:
+                    print("Two converted topic names clash: %s, ignoring topic %s"
+                          % (collname, topic))
+                    continue
+            try:
+                print("Adding topic %s" % topic)
+                w = self.create_worker(len(self.workers), topic, collname)
+                self.workers.append(w)
+                self.collnames |= set([collname])
+                self.topics |= set([topic])
+            except Exception, e:
+                print('Failed to subsribe to %s due to %s' % (topic, e))
+                missing_topics.add(topic)
 
         return missing_topics
 
@@ -512,7 +528,7 @@ class MongoWriter(object):
     def shutdown(self):
         self.quit = True
         if hasattr(self, "all_topics_timer"): self.all_topics_timer.cancel()
-        for name, w in self.workers.items():
+        for w in self.workers:
             #print("Shutdown %s" % name)
             w.shutdown()
 
@@ -575,7 +591,7 @@ class MongoWriter(object):
 
     def get_memory_usage(self):
         size, rss, stack = 0, 0, 0
-        for _, w in self.workers.items():
+        for w in self.workers:
             pmem = self.get_memory_usage_for_pid(w.process.pid)
             size  += pmem[0]
             rss   += pmem[1]
@@ -599,9 +615,15 @@ def main(argv):
     parser.add_option("--mongodb-name", dest="mongodb_name",
                       help="Name of DB in which to store values",
                       metavar="NAME", default="roslog")
+    parser.add_option("--mongodb-collection", dest="mongodb_collection",
+                      help="Name of Collection in which to store values. All topics are stored in the collection if used this option, otherwise topic names are used as collections",
+                      metavar="COLLECTION", default=None)
     parser.add_option("-a", "--all-topics", dest="all_topics", default=False,
                       action="store_true",
                       help="Log all existing topics (still excludes /rosout, /rosout_agg)")
+    parser.add_option("-e", "--regex", dest="treat_as_regex", default=False,
+                      help="Log topics matching the follow regular expression",
+                      action="store_true")
     parser.add_option("--all-topics-interval", dest="all_topics_interval", default=5,
                       help="Time in seconds between checks for new topics", type="int")
     parser.add_option("-x", "--exclude", dest="exclude",
@@ -622,12 +644,14 @@ def main(argv):
         print("Failed to communicate with master")
 
     mongowriter = MongoWriter(topics=args,
+                              treat_as_regex=options.treat_as_regex,
                               all_topics=options.all_topics,
                               all_topics_interval = options.all_topics_interval,
                               exclude_topics = options.exclude,
                               mongodb_host=options.mongodb_host,
                               mongodb_port=options.mongodb_port,
                               mongodb_name=options.mongodb_name,
+                              mongodb_collection=options.mongodb_collection,
                               no_specific=options.no_specific,
                               nodename_prefix=options.nodename_prefix)
 
