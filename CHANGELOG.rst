@@ -2,6 +2,28 @@
 Changelog for package mongodb_log
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.16 (2015-08-04)
+-------------------
+* add option to treat topic name arguments as regular expression
+* add option to specify collection name
+* Contributors: Furushchev
+
+0.1.15 (2015-05-10)
+-------------------
+
+0.1.14 (2015-04-27)
+-------------------
+* Adding install targets for mongodb_log
+  Closes `#129 <https://github.com/strands-project/mongodb_store/issues/129>`_
+* Contributors: Christian Dondrup
+
+0.1.13 (2015-04-22)
+-------------------
+* Recheck topics at a fixed interval in order to attempt to resubscribe to topics that were missing at startup.
+  This closes `#126 <https://github.com/strands-project/mongodb_store/issues/126>`_.
+* Changed mongodb_log to not wait for topics to be published, instead subscribing to all the other topics
+* Contributors: Nick Hawes, Nils Bore
+
 0.1.12 (2015-02-09)
 -------------------
 
