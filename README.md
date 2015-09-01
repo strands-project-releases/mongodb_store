@@ -1,3 +1,27 @@
+## mongodb_store (jade) - 0.1.17-0
+
+The packages in the `mongodb_store` repository were released into the `jade` distro by running `/usr/bin/bloom-release --rosdistro jade --track jade mongodb_store --edit` on `Tue, 01 Sep 2015 13:54:19 -0000`
+
+These packages were released:
+- `mongodb_log`
+- `mongodb_store`
+- `mongodb_store_msgs`
+
+Version of package(s) in repository `mongodb_store`:
+- upstream repository: https://github.com/strands-project/mongodb_store.git
+- release repository: https://github.com/strands-project-releases/mongodb_store.git
+- rosdistro version: `0.1.16-0`
+- old version: `0.1.16-0`
+- new version: `0.1.17-0`
+
+Versions of tools used:
+- bloom version: `0.5.20`
+- catkin_pkg version: `0.2.10`
+- rosdep version: `0.11.2`
+- rosdistro version: `0.4.2`
+- vcstools version: `0.1.36`
+
+
 ## mongodb_store (jade) - 0.1.16-0
 
 The packages in the `mongodb_store` repository were released into the `jade` distro by running `/usr/bin/bloom-release mongodb_store -r jade -t jade --edit` on `Tue, 04 Aug 2015 09:38:19 -0000`
