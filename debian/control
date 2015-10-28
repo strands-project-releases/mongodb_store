@@ -1,0 +1,12 @@
+Source: ros-jade-mongodb-log
+Section: misc
+Priority: extra
+Maintainer: Marc Hanheide <marc@hanheide.net>
+Build-Depends: debhelper (>= 9.0.0), libmongo-client-dev, libssl-dev, mongodb-dev, ros-jade-catkin, ros-jade-mongodb-store, ros-jade-rosgraph, ros-jade-roslib, ros-jade-rospy, ros-jade-rostopic, ros-jade-sensor-msgs, ros-jade-tf
+Homepage: http://ros.org/wiki/mongodb_log
+Standards-Version: 3.9.2
+
+Package: ros-jade-mongodb-log
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libmongo-client-dev, mongodb-dev, python-pymongo, ros-jade-mongodb-store, ros-jade-rosgraph, ros-jade-roslib, ros-jade-rospy, ros-jade-rostopic, ros-jade-sensor-msgs, ros-jade-tf
+Description: The mongodb_log package
