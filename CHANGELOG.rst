@@ -2,6 +2,12 @@
 Changelog for package mongodb_log
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.18 (2015-10-28)
+-------------------
+
+0.1.17 (2015-09-01)
+-------------------
+
 0.1.16 (2015-08-04)
 -------------------
 * add option to treat topic name arguments as regular expression
