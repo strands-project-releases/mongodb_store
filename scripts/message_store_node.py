@@ -23,9 +23,9 @@ class MessageStore(object):
         self.replicate_on_write = replicate_on_write
 
         use_daemon = rospy.get_param('mongodb_use_daemon', False)
-        db_host = rospy.get_param('mongodb_host')
-        db_port = rospy.get_param('mongodb_port')
-        if use_daemon:
+        if use_daemon:            
+            db_host = rospy.get_param('mongodb_host')
+            db_port = rospy.get_param('mongodb_port')
             is_daemon_alive = dc_util.check_connection_to_mongod(db_host, db_port)
             if not is_daemon_alive:
                 raise Exception("No Daemon?")
@@ -33,6 +33,10 @@ class MessageStore(object):
             have_dc = dc_util.wait_for_mongo()
             if not have_dc:
                 raise Exception("No Datacentre?")
+            # move these to after the wait_for_mongo check as they may not be set before the db is available
+            db_host = rospy.get_param('mongodb_host')
+            db_port = rospy.get_param('mongodb_port')
+
 
         self._mongo_client=MongoClient(db_host, db_port)
 
@@ -194,13 +198,13 @@ class MessageStore(object):
             except ValueError:
                 sort_query_tuples.append((k,v))
 
-        entries =  dc_util.query_message(collection, obj_query, sort_query_tuples, req.single)
+        entries =  dc_util.query_message(collection, obj_query, sort_query_tuples, req.single, req.limit)
 
         # keep trying clients until we find an answer
         for extra_client in self.extra_clients:
             if len(entries) == 0:
                 extra_collection = extra_client[req.database][req.collection]            
-                entries =  dc_util.query_message(extra_collection, obj_query, sort_query_tuples, req.single)
+                entries =  dc_util.query_message(extra_collection, obj_query, sort_query_tuples, req.single, req.limit)
                 if len(entries) > 0:
                     rospy.loginfo("found result in extra datacentre")             
             else:
