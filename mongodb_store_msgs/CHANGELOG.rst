@@ -2,6 +2,15 @@
 Changelog for package mongodb_store_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.18 (2015-10-28)
+-------------------
+* updated Changelogs
+* [mongodb_store] add limit argument for query
+* Contributors: Nick Hawes, Yuki Furuta
+
+0.1.17 (2015-09-01)
+-------------------
+
 0.1.16 (2015-08-04)
 -------------------
 
