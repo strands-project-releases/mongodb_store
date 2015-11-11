@@ -2,6 +2,14 @@
 Changelog for package mongodb_store
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.20 (2015-11-11)
+-------------------
+* Added some extra robustness to mongodb_play. This means latch does not need to be defined as in `#123 <https://github.com/strands-project/mongodb_store/issues/123>`_.
+* Added corrected wait pattern to replicator node start-up
+* making mongod using smaller files
+  consuming less space. The journals are massive, to the point they can't be created on jenkins.
+* Contributors: Marc Hanheide, Nick Hawes
+
 0.1.19 (2015-10-28)
 -------------------
 
@@ -22,9 +30,7 @@ Changelog for package mongodb_store
 
 0.1.17 (2015-09-01)
 -------------------
-* Added dependency on jade package for legacy mongodb c++ driver. Updated the CMake file to search this location too.
-* Fix: remove auto-generated databases in /tmp after a test has been completed that may e.g. fill up the harddisk of a Jenkins server
-* Contributors: Moritz Tenorth, Nick Hawes
+
 
 0.1.16 (2015-08-04)
 -------------------

@@ -19,7 +19,6 @@ set(MongoClient_PossibleIncludePaths
   /usr/include/mongo/
   /usr/local/include/mongo/
   /opt/mongo/include/
-  /opt/ros/jade/include/
   $ENV{ProgramFiles}/Mongo/*/include
   $ENV{SystemDrive}/Mongo/*/include
   )
@@ -53,7 +52,6 @@ else(WIN32)
     /usr/local/lib64/mongo
     /opt/mongo/lib
     /opt/mongo/lib64
-    /opt/ros/jade/lib
     )
 endif(WIN32)
 
