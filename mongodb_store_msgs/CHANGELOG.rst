@@ -2,12 +2,27 @@
 Changelog for package mongodb_store_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+
+
+
+0.1.27 (2016-11-01)
+-------------------
+
+0.1.26 (2016-10-14)
+-------------------
+* Created a new service for querying with projections
+* Projection field to the queries is added
+* indigo-0.1.25
+* Updating changelogs
+* indigo-0.1.24
+* updated Changelogs
+* Contributors: Nick Hawes, hkaraoguz
+
 0.1.25 (2016-04-28)
 -------------------
 
 0.1.24 (2016-04-19)
 -------------------
-
 
 0.1.23 (2016-04-19)
 -------------------
