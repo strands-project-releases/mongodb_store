@@ -2,6 +2,29 @@
 Changelog for package mongodb_store
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+
+
+0.1.27 (2016-11-01)
+-------------------
+* Fixed if statement
+* geotype of ROI has been added
+* The geospatial indexing of SOMA ROI objects is added
+* Contributors: Hakan
+
+0.1.26 (2016-10-14)
+-------------------
+* Fixed a bug during soma msg_type check.
+* Unit tests have been added for projection.
+* Created a new service for querying with projections
+* Added checks for new soma object message type. Performed code cleanup
+* Projection field to the queries is added
+* indigo-0.1.25
+* Updating changelogs
+* checking object type and adding soma2 fields based on that has been added
+* indigo-0.1.24
+* updated Changelogs
+* Contributors: Hakan, Nick Hawes, hkaraoguz
+
 0.1.25 (2016-04-28)
 -------------------
 * checking object type and adding soma2 fields based on that has been added
@@ -9,7 +32,6 @@ Changelog for package mongodb_store
 
 0.1.24 (2016-04-19)
 -------------------
-
 
 0.1.23 (2016-04-19)
 -------------------
