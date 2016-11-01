@@ -2,6 +2,55 @@
 Changelog for package mongodb_store
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+
+
+0.1.27 (2016-11-01)
+-------------------
+* Fixed if statement
+* geotype of ROI has been added
+* The geospatial indexing of SOMA ROI objects is added
+* Contributors: Hakan
+
+0.1.26 (2016-10-14)
+-------------------
+* Fixed a bug during soma msg_type check.
+* Unit tests have been added for projection.
+* Created a new service for querying with projections
+* Added checks for new soma object message type. Performed code cleanup
+* Projection field to the queries is added
+* indigo-0.1.25
+* Updating changelogs
+* checking object type and adding soma2 fields based on that has been added
+* indigo-0.1.24
+* updated Changelogs
+* Contributors: Hakan, Nick Hawes, hkaraoguz
+
+0.1.25 (2016-04-28)
+-------------------
+* checking object type and adding soma2 fields based on that has been added
+* Contributors: hkaraoguz
+
+0.1.24 (2016-04-19)
+-------------------
+
+0.1.23 (2016-04-19)
+-------------------
+* Using remote mongodb without ros option has been added
+* Sort query functionality have been added to cpp interface
+* Removal of unnecessary code.
+* Update message update method for using timestamp info
+* Remove unnecessary print statements
+* Fix comments and remove unnecessary print statements
+* Modifications in object insertion
+* using ROS_HOSTNAME instead of HOSTNAME
+  fixes `#160 <https://github.com/strands-project/mongodb_store/issues/160>`_
+* GeoSpatial indexing is added for SOMA2 objects and rois
+* indigo-0.1.22
+* updated Changelogs
+* Modifications for geospatial indexing
+* Contributors: Marc Hanheide, Nick Hawes, hkaraoguz
+
+
 0.1.22 (2016-02-23)
 -------------------
 * Update README.md
@@ -16,6 +65,7 @@ Changelog for package mongodb_store
 * making mongod using smaller files
   consuming less space. The journals are massive, to the point they can't be created on jenkins.
 * Contributors: Marc Hanheide, Nick Hawes
+
 
 
 0.1.19 (2015-10-28)
