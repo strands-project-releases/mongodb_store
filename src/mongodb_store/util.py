@@ -11,6 +11,7 @@ from mongodb_store_msgs.msg import SerialisedMessage
 from mongodb_store_msgs.srv import MongoQueryMsgRequest
 
 import importlib
+from datetime import datetime
 
 def check_connection_to_mongod(db_host, db_port):
     """
@@ -31,12 +32,12 @@ def check_connection_to_mongod(db_host, db_port):
             return False
     else:
         return False
-    
+
 
 def wait_for_mongo():
     """
     Waits for the mongo server, as started through the mongodb_store/mongodb_server.py wrapper
-    
+
     :Returns:
         | bool : True on success, False if server not even started.
     """
@@ -53,7 +54,7 @@ def wait_for_mongo():
 def check_for_pymongo():
     """
     Checks for required version of pymongo python library.
-    
+
     :Returns:
         | bool : True if found, otherwise Fale
     """
@@ -64,7 +65,7 @@ def check_for_pymongo():
         print("Can't import pymongo, this is needed by mongodb_store.")
         print("Make sure it is installed (sudo pip install pymongo)")
         return False
-    
+
     return True
 
 """
@@ -97,7 +98,7 @@ def _fill_msg(msg,dic):
             _fill_msg(getattr(msg,i),dic[i])
         else:
             setattr(msg,i,dic[i])
-    
+
 
 """
 Given a document in the database, return metadata and ROS message -- must have been
@@ -116,7 +117,7 @@ def document_to_msg(document, TYPE):
     _fill_msg(msg,document)
     return meta
 
-    
+
 def msg_to_document(msg):
     """
     Given a ROS message, turn it into a (nested) dictionary suitable for the datacentre.
@@ -125,14 +126,14 @@ def msg_to_document(msg):
     >>> msg_to_document(Pose())
     {'orientation': {'w': 0.0, 'x': 0.0, 'y': 0.0, 'z': 0.0},
     'position': {'x': 0.0, 'y': 0.0, 'z': 0.0}}
-    
+
     :Args:
         | msg (ROS Message): An instance of a ROS message to convert
     :Returns:
         | dict : A dictionary representation of the supplied message.
     """
 
-    
+
 
 
     d = {}
@@ -154,7 +155,7 @@ def sanitize_value(attr, v, type):
     De-rosify a msg.
 
     Internal function used to convert ROS messages into dictionaries of pymongo insertable
-    values. 
+    values.
 
     :Args:
         | attr(str): the ROS message slot name the value came from
@@ -175,13 +176,13 @@ def sanitize_value(attr, v, type):
             v = Binary(v)
         else:
             # ensure unicode
-            try:            
+            try:
                 v = unicode(v, "utf-8")
             except UnicodeDecodeError, e:
                 # at this point we can deal with the encoding, so treat it as binary
                 v = Binary(v)
-        # no need to carry on with the other type checks below 
-        return v   
+        # no need to carry on with the other type checks below
+        return v
 
     if isinstance(v, rospy.Message):
         return msg_to_document(v)
@@ -191,10 +192,10 @@ def sanitize_value(attr, v, type):
          return msg_to_document(v)
     elif isinstance(v, list):
         result = []
-        for t in v:            
+        for t in v:
             if hasattr(t, '_type'):
                 result.append(sanitize_value(None, t, t._type))
-            else: 
+            else:
                 result.append(sanitize_value(None, t, None))
         return result
     else:
@@ -214,13 +215,15 @@ def store_message(collection, msg, meta, oid=None):
         | oid (str): An optional ObjectID for the MongoDB document created.
     :Returns:
         | str: ObjectId of the MongoDB document.
-    """    
+    """
     doc=msg_to_document(msg)
     doc["_meta"]=meta
     #  also store type information
     doc["_meta"]["stored_class"] = msg.__module__ + "." + msg.__class__.__name__
     doc["_meta"]["stored_type"] = msg._type
 
+    if msg._type == "soma2_msgs/SOMA2Object" or msg._type == "soma_msgs/SOMAObject" or msg._type == "soma_msgs/SOMAROIObject":
+        add_soma_fields(msg,doc)
 
     if hasattr(msg, '_connection_header'):
         print getattr(msg, '_connection_header')
@@ -232,7 +235,7 @@ def store_message(collection, msg, meta, oid=None):
 
 # """
 # Stores a ROS message into the DB with msg and meta as separate fields
-# """    
+# """
 # def store_message_separate(collection, msg, meta):
 #     doc={}
 #     doc["_meta"]=meta
@@ -264,18 +267,18 @@ def fill_message(message, document):
         | document (dict): A dicionary containing all of the message attributes
 
     Example:
-    
+
     >>> from geometry_msgs.msg import Pose
     >>> d = dcu.msg_to_document(Pose())
     >>> d['position']['x']=27.0
     >>> new_pose = Pose(
     >>> fill_message(new_pose, d)
     >>>  new_pose
-    position: 
+    position:
       x: 27.0
       y: 0.0
       z: 0.0
-    orientation: 
+    orientation:
       x: 0.0
       y: 0.0
       z: 0.0
@@ -283,26 +286,29 @@ def fill_message(message, document):
     """
     for slot, slot_type in zip(message.__slots__,
                                getattr(message,"_slot_types",[""]*len(message.__slots__))):
-        value = document[slot]
+
+        # This check is required since objects returned with projection queries can have absent keys
+        if slot in document.keys():
+            value = document[slot]
         # fill internal structures if value is a dictionary itself
-        if isinstance(value, dict):
-            fill_message(getattr(message, slot), value)
-        elif isinstance(value, list) and slot_type.find("/")!=-1:
+            if isinstance(value, dict):
+                fill_message(getattr(message, slot), value)
+            elif isinstance(value, list) and slot_type.find("/")!=-1:
             # if its a list and the type is some message (contains a "/")
-            lst=[]
+                lst=[]
             # Remove [] from message type ([:-2])
-            msg_type = type_to_class_string(slot_type[:-2])
-            msg_class = load_class(msg_type)
-            for i in value:
-                msg = msg_class()
-                fill_message(msg, i)
-                lst.append(msg)
-            setattr(message, slot, lst)    
-        else:
-            if isinstance(value, unicode):
-                setattr(message, slot, str(value))
+                msg_type = type_to_class_string(slot_type[:-2])
+                msg_class = load_class(msg_type)
+                for i in value:
+                    msg = msg_class()
+                    fill_message(msg, i)
+                    lst.append(msg)
+                    setattr(message, slot, lst)
             else:
-                setattr(message, slot, value)    
+                if isinstance(value, unicode):
+                    setattr(message, slot, str(value))
+                else:
+                    setattr(message, slot, value)
 
 def dictionary_to_message(dictionary, cls):
     """
@@ -316,26 +322,28 @@ def dictionary_to_message(dictionary, cls):
 
 
     Example:
-    
+
     >>> from geometry_msgs.msg import Pose
     >>> d = {'orientation': {'w': 0.0, 'x': 0.0, 'y': 0.0, 'z': 0.0},
        'position': {'x': 27.0, 'y': 0.0, 'z': 0.0}}
     >>> dictionary_to_message(d, Pose)
-    position: 
+    position:
       x: 27.0
       y: 0.0
       z: 0.0
-    orientation: 
+    orientation:
       x: 0.0
       y: 0.0
       z: 0.0
       w: 0.0
     """
     message = cls()
+
     fill_message(message, dictionary)
+
     return message
 
-def query_message(collection, query_doc, sort_query=[], find_one=False, limit=0):
+def query_message(collection, query_doc, sort_query=[], projection_query={},find_one=False, limit=0):
     """
     Peform a query for a stored messages, returning results in list.
 
@@ -343,6 +351,7 @@ def query_message(collection, query_doc, sort_query=[], find_one=False, limit=0)
         | collection (pymongo.Collection): The collection to query
         | query_doc (dict): The MongoDB query to execute
         | sort_query (list of tuple): The MongoDB query to sort
+        | projection_query (dict): The projection query
         | find_one (bool): Returns one matching document if True, otherwise all matching.
         | limit (int): Limits number of return documents. 0 means no limit
     :Returns:
@@ -352,16 +361,26 @@ def query_message(collection, query_doc, sort_query=[], find_one=False, limit=0)
     if find_one:
         ids = ()
         if sort_query:
-            result = collection.find_one(query_doc, sort=sort_query)
+            if not projection_query:
+                result = collection.find_one(query_doc, sort=sort_query)
+            else:
+                result = collection.find_one(query_doc,  projection_query, sort=sort_query)
+        elif projection_query:
+            result = collection.find_one(query_doc, projection_query)
         else:
             result = collection.find_one(query_doc)
         if result:
-            return [ result ] 
+            return [ result ]
         else:
             return []
     else:
         if sort_query:
-            return [ result for result in collection.find(query_doc).sort(sort_query).limit(limit) ]
+            if  not projection_query:
+            	return [ result for result in collection.find(query_doc).sort(sort_query).limit(limit) ]
+            else:
+                return [ result for result in collection.find(query_doc, projection_query).sort(sort_query).limit(limit) ]
+        elif projection_query:
+            return [ result for result in collection.find(query_doc, projection_query).limit(limit) ]
         else:
             return [ result for result in collection.find(query_doc).limit(limit) ]
 
@@ -378,7 +397,7 @@ def update_message(collection, query_doc, msg, meta, upsert):
     :Returns:
         | str, bool: the OjectId of the updated document and whether it was altered by
                      the operation
-    """    
+    """
     # see if it's in db first
     result = collection.find_one(query_doc)
 
@@ -391,16 +410,19 @@ def update_message(collection, query_doc, msg, meta, upsert):
 
     # convert msg to db document
     doc=msg_to_document(msg)
-    
+
+    if msg._type == "soma2_msgs/SOMA2Object" or msg._type == "soma_msgs/SOMAObject" or msg._type == "soma_msgs/SOMAROIObject":
+        add_soma_fields(msg,doc)
+
     #update _meta
     doc["_meta"] = result["_meta"]
     #merge the two dicts, overwiriting elements in doc["_meta"] with elements in meta
-    doc["_meta"]=dict(list(doc["_meta"].items()) + list(meta.items())) 
+    doc["_meta"]=dict(list(doc["_meta"].items()) + list(meta.items()))
 
-    # ensure necessary parts are there too 
+    # ensure necessary parts are there too
     doc["_meta"]["stored_class"] = msg.__module__ + "." + msg.__class__.__name__
     doc["_meta"]["stored_type"] = msg._type
-    
+
     return collection.update(query_doc, doc), True
 
 
@@ -418,18 +440,18 @@ def query_message_ids(collection, query_doc, find_one):
     if find_one:
         result = collection.find_one(query_doc)
         if result:
-            return str(result["_id"]), 
+            return str(result["_id"]),
     else:
         return tuple(str(result["_id"]) for result in collection.find(query_doc, {'_id':1}))
 
 
 
 def type_to_class_string(type):
-    """ 
-    Takes a ROS msg type and turns it into a Python module and class name. 
+    """
+    Takes a ROS msg type and turns it into a Python module and class name.
 
     E.g
-    
+
     >>> type_to_class_string("geometry_msgs/Pose")
     geometry_msgs.msg._Pose.Pose
 
@@ -437,7 +459,7 @@ def type_to_class_string(type):
         | type (str): The ROS message type to return class string
     :Returns:
         | str: A python class string for the ROS message type supplied
-    """    
+    """
     parts = type.split('/')
     cls_string = "%s.msg._%s.%s" % (parts[0], parts[1], parts[1])
     return cls_string
@@ -470,10 +492,10 @@ def serialise_message(message):
     :Returns:
         | mongodb_store_msgs.msg.SerialisedMessage: A serialies copy of message
     """
-    buf=StringIO.StringIO() 
+    buf=StringIO.StringIO()
     message.serialize(buf)
     serialised_msg = SerialisedMessage()
-    serialised_msg.msg = buf.getvalue() 
+    serialised_msg.msg = buf.getvalue()
     serialised_msg.type = message._type
     return serialised_msg
 
@@ -528,3 +550,27 @@ def topic_name_to_collection_name(topic_name):
     Converts the fully qualified name of a topic into legal mongodb collection name.
     """
     return topic_name.replace("/", "_")[1:]
+
+def add_soma_fields(msg,doc):
+    """
+    For soma Object msgs adds the required fields as indexes to the mongodb object.
+    """
+
+    if hasattr(msg, 'pose'):
+        doc["loc"] = [doc["pose"]["position"]["x"],doc["pose"]["position"]["y"]]
+    if hasattr(msg,'logtimestamp'):
+        doc["timestamp"] = datetime.utcfromtimestamp(doc["logtimestamp"])
+#doc["timestamp"] = datetime.strptime(doc["logtime"], "%Y-%m-%dT%H:%M:%SZ")
+
+    if hasattr(msg, 'geotype'):
+        if(doc["geotype"] == "Point"):
+            for p in doc["geoposearray"]["poses"]:
+                doc["geoloc"] = {'type': doc['geotype'],'coordinates': [p["position"]["x"], p["position"]["y"]]}
+        if(msg._type =="soma_msgs/SOMAROIObject"):
+            coordinates = []
+            doc["geotype"] = "Polygon"
+            for p in doc["geoposearray"]["poses"]:
+                coordinates.append([p["position"]["x"], p["position"]["y"]])
+            coordinates2=[]
+            coordinates2.append(coordinates)
+            doc["geoloc"] = {'type': doc['geotype'],'coordinates': coordinates2}
