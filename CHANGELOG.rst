@@ -2,12 +2,42 @@
 Changelog for package mongodb_log
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+
+
+0.1.27 (2016-11-01)
+-------------------
+
+
+0.1.26 (2016-10-14)
+-------------------
+* indigo-0.1.25
+* Updating changelogs
+* indigo-0.1.24
+* updated Changelogs
+* Contributors: Nick Hawes
+
+0.1.25 (2016-04-28)
+-------------------
+
+0.1.24 (2016-04-19)
+-------------------
+
+
+0.1.23 (2016-04-19)
+-------------------
+* Fixed missing namespace for mongodb_log
+* indigo-0.1.22
+* updated Changelogs
+* Contributors: Nick Hawes
+
+
 0.1.22 (2016-02-23)
 -------------------
 
 
 0.1.20 (2015-11-11)
 -------------------
+
 
 
 0.1.19 (2015-10-28)
