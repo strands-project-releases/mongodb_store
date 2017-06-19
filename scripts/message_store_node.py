@@ -12,7 +12,7 @@ import pymongo
 from pymongo import GEO2D
 import json
 from bson import json_util
-from mongodb_store_msgs.msg import  StringPair, StringPairList
+from mongodb_store_msgs.msg import  StringPair, StringPairList, Insert
 from bson.objectid import ObjectId
 from datetime import *
 
@@ -26,6 +26,9 @@ class MessageStore(object):
         use_daemon = rospy.get_param('mongodb_use_daemon', False)
 	# If you want to use a remote datacenter, then it should be set as false
 	use_localdatacenter = rospy.get_param('~mongodb_use_localdatacenter', True)
+	local_timeout = rospy.get_param('~local_timeout', 10)
+        if str(local_timeout).lower() == "none":
+            local_timeout = None
 
 	if use_daemon:
             db_host = rospy.get_param('mongodb_host')
@@ -35,7 +38,8 @@ class MessageStore(object):
                 raise Exception("No Daemon?")
         else:
 	  if use_localdatacenter:
-            have_dc = dc_util.wait_for_mongo()
+            rospy.loginfo('Waiting for local datacentre (timeout: %s)' % str(local_timeout))
+            have_dc = dc_util.wait_for_mongo(local_timeout)
             if not have_dc:
                 raise Exception("No Datacentre?")
           # move these to after the wait_for_mongo check as they may not be set before the db is available
@@ -65,6 +69,18 @@ class MessageStore(object):
                 service=getattr(self, attr)
                 rospy.Service("/message_store/"+attr[:-8], service.type, service)
 
+        self.queue_size = rospy.get_param("queue_size", 100)
+        self.sub_insert = rospy.Subscriber("/message_store/insert", Insert,
+                                           self.insert_ros_msg,
+                                           queue_size=self.queue_size)
+
+
+    def insert_ros_msg(self, msg):
+        """
+        Receives a message published
+        """
+        # actually procedure is the same
+        self.insert_ros_srv(msg)
 
 
     def insert_ros_srv(self, req):
@@ -283,13 +299,18 @@ class MessageStore(object):
  	    # this is a list of entries in dict format including meta
         projection_query_dict = dc_util.string_pair_list_to_dictionary(req.projection_query)
 
-        entries =  dc_util.query_message(collection, obj_query, sort_query_tuples, projection_query_dict,req.single, req.limit)
+        meta_projection_dict = dict()
 
+        meta_projection_dict["_meta"] = 1
+
+        entries =  dc_util.query_message(collection, obj_query, sort_query_tuples, projection_query_dict,req.single, req.limit)
+        meta_entries = dc_util.query_message(collection, obj_query, sort_query_tuples,meta_projection_dict,req.single, req.limit)
         # keep trying clients until we find an answer
         for extra_client in self.extra_clients:
             if len(entries) == 0:
                 extra_collection = extra_client[req.database][req.collection]
                 entries =  dc_util.query_message(extra_collection, obj_query, sort_query_tuples, projection_query_dict, req.single, req.limit)
+                meta_entries = dc_util.query_message(collection, obj_query, sort_query_tuples,meta_projection_dict,req.single, req.limit)
                 if len(entries) > 0:
                     rospy.loginfo("found result in extra datacentre")
             else:
@@ -301,8 +322,9 @@ class MessageStore(object):
         serialised_messages = ()
         metas = ()
 
-        for entry in entries:
 
+        for i,entry in enumerate(entries):
+            entry.update(meta_entries[i])
             # load the class object for this type
             # TODO this should be the same for every item in the list, so could reuse
             cls = dc_util.load_class(entry["_meta"]["stored_class"])
@@ -311,8 +333,9 @@ class MessageStore(object):
             # the serialise this object in order to be sent in a generic form
             serialised_messages = serialised_messages + (dc_util.serialise_message(message), )
             # add ObjectID into meta as it might be useful later
-            if "_id" not in projection_query_dict.keys():
-            	entry["_meta"]["_id"] = entry["_id"]
+            #if "_id" not in projection_query_dict.keys():
+            #print meta_entries[i]
+            entry["_meta"]["_id"] = meta_entries[i]["_id"]
             # serialise meta
             metas = metas + (StringPairList([StringPair(dc_srv.MongoQuerywithProjectionMsgRequest.JSON_QUERY, json.dumps(entry["_meta"], default=json_util.default))]), )
 
