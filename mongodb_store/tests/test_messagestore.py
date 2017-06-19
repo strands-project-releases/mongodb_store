@@ -5,6 +5,7 @@ import unittest
 import random
 from mongodb_store.message_store import MessageStoreProxy
 from geometry_msgs.msg import Pose, Point, Quaternion
+import rospy
 
 class TestMessageStoreProxy(unittest.TestCase):
 
@@ -62,11 +63,11 @@ class TestMessageStoreProxy(unittest.TestCase):
         self.assertEqual(len(result_limited), 10)
         self.assertListEqual([int(doc[0].orientation.x) for doc in result_limited], range(10))
 
-	#get documents without "_id" field
-	result_no_id = msg_store.query(Pose._type, message_query={}, projection_query={"_id": 0})
+	#get documents without "orientation" field
+	result_no_id = msg_store.query(Pose._type, message_query={}, projection_query={"orientation": 0})
         for doc in result_no_id:
-		self.assertTrue('_id' not in doc[1]) 
-        #print result_no_id[0][1]
+		self.assertEqual(int(doc[0].orientation.z),0 ) 
+        
         
 	
         
@@ -76,11 +77,20 @@ class TestMessageStoreProxy(unittest.TestCase):
         deleted = msg_store.delete(str(meta["_id"]))
         self.assertTrue(deleted)
 
-    
-    
+    def test_add_message_no_wait(self):
+        msg_store = MessageStoreProxy()
+        count_before_insert = len(msg_store.query(Pose._type, meta_query={ "no_wait": True }))
+        p = Pose(Point(0, 1, 2), Quaternion(0, 0, 0, 1))
+        for i in range(10):
+            msg_store.insert(p, meta={"no_wait": True }, wait=False)
+        rospy.sleep(2)
+        count_after_insert = len(msg_store.query(Pose._type, meta_query={ "no_wait": True }))
+        self.assertTrue(count_after_insert > count_before_insert)
+
 if __name__ == '__main__':
     import rostest
     PKG = 'mongodb_store'
+    rospy.init_node('test_message_store_proxy')
     rostest.rosrun(PKG, 'test_message_store_proxy', TestMessageStoreProxy)
     
  
