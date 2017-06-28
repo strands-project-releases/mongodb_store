@@ -1,0 +1,24 @@
+ros-kinetic-libmongocxx-ros (0.2.2-0xenial) xenial; urgency=high
+
+  * fixed wrong install place
+  * Contributors: Marc Hanheide
+
+ -- Marc Hanheide <marc@hanheide.net>  Tue, 27 Jun 2017 23:00:00 -0000
+
+ros-kinetic-libmongocxx-ros (0.2.1-0xenial) xenial; urgency=high
+
+  * added git which was missing for the build
+  * Contributors: Marc Hanheide
+
+ -- Marc Hanheide <marc@hanheide.net>  Tue, 27 Jun 2017 23:00:00 -0000
+
+ros-kinetic-libmongocxx-ros (0.2.0-0xenial) xenial; urgency=high
+
+  * attempt to fix the cmake hell
+  * fixed install problem
+  * some attempts to build libmongocxx internally
+  * Contributors: Marc Hanheide
+
+ -- Marc Hanheide <marc@hanheide.net>  Tue, 27 Jun 2017 23:00:00 -0000
+
+
