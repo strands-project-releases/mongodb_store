@@ -1,0 +1,13 @@
+Source: ros-kinetic-mongodb-store
+Section: misc
+Priority: extra
+Maintainer: Chris Burbridge <cburbridge@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), libssl-dev, mongodb, python-catkin-pkg, ros-kinetic-catkin, ros-kinetic-geometry-msgs, ros-kinetic-libmongocxx-ros, ros-kinetic-message-generation, ros-kinetic-mongodb-store-msgs, ros-kinetic-roscpp, ros-kinetic-rospy, ros-kinetic-rostest, ros-kinetic-std-msgs, ros-kinetic-std-srvs
+Homepage: http://www.ros.org/wiki/mongodb_store
+Standards-Version: 3.9.2
+
+Package: ros-kinetic-mongodb-store
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, mongodb, python-pymongo, ros-kinetic-geometry-msgs, ros-kinetic-libmongocxx-ros, ros-kinetic-mongodb-store-msgs, ros-kinetic-roscpp, ros-kinetic-rospy, ros-kinetic-std-msgs, ros-kinetic-std-srvs
+Description: A package to support MongoDB-based storage and analysis for data from a ROS system, eg.
+ saved messages, configurations etc
