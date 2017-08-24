@@ -1,0 +1,30 @@
+ros-indigo-libmongocxx-ros (0.3.1-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Thu, 24 Aug 2017 00:00:00 -0000
+
+ros-indigo-libmongocxx-ros (0.2.2-0trusty) trusty; urgency=high
+
+  * fixed wrong install place
+  * Contributors: Marc Hanheide
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 28 Jun 2017 00:00:00 -0000
+
+ros-indigo-libmongocxx-ros (0.2.1-0trusty) trusty; urgency=high
+
+  * added git which was missing for the build
+  * Contributors: Marc Hanheide
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 28 Jun 2017 00:00:00 -0000
+
+ros-indigo-libmongocxx-ros (0.2.0-0trusty) trusty; urgency=high
+
+  * attempt to fix the cmake hell
+  * fixed install problem
+  * some attempts to build libmongocxx internally
+  * Contributors: Marc Hanheide
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 28 Jun 2017 00:00:00 -0000
+
+
