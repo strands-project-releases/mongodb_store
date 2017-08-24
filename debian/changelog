@@ -1,0 +1,292 @@
+ros-indigo-mongodb-log (0.3.1-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Thu, 24 Aug 2017 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.3.0-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Thu, 24 Aug 2017 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.2.2-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 28 Jun 2017 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.2.1-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 28 Jun 2017 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.2.0-0trusty) trusty; urgency=high
+
+  * dependencies fixing
+  * Contributors: Marc Hanheide, Nick Hawes
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 28 Jun 2017 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.30-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Fri, 23 Jun 2017 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.29-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Mon, 19 Jun 2017 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.28-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 09 Nov 2016 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.27-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Tue, 01 Nov 2016 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.26-0trusty) trusty; urgency=high
+
+  * indigo-0.1.25
+  * Updating changelogs
+  * indigo-0.1.24
+  * updated Changelogs
+  * Contributors: Nick Hawes
+
+ -- Marc Hanheide <marc@hanheide.net>  Fri, 14 Oct 2016 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.25-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Thu, 28 Apr 2016 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.24-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Tue, 19 Apr 2016 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.23-0trusty) trusty; urgency=high
+
+  * Fixed missing namespace for mongodb_log
+  * indigo-0.1.22
+  * updated Changelogs
+  * Contributors: Nick Hawes
+
+ -- Marc Hanheide <marc@hanheide.net>  Tue, 19 Apr 2016 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.22-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Tue, 23 Feb 2016 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.20-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 11 Nov 2015 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.19-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 28 Oct 2015 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.18-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 28 Oct 2015 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.17-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Tue, 01 Sep 2015 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.16-0trusty) trusty; urgency=high
+
+  * add option to treat topic name arguments as regular expression
+  * add option to specify collection name
+  * Contributors: Furushchev
+
+ -- Marc Hanheide <marc@hanheide.net>  Tue, 04 Aug 2015 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.15-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Sun, 10 May 2015 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.14-0trusty) trusty; urgency=high
+
+  * Adding install targets for mongodb_log
+    Closes #129 <https://github.com/strands-project/mongodb_store/issues/129>
+  * Contributors: Christian Dondrup
+
+ -- Marc Hanheide <marc@hanheide.net>  Mon, 27 Apr 2015 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.13-0trusty) trusty; urgency=high
+
+  * Recheck topics at a fixed interval in order to attempt to resubscribe to topics that were missing at startup.
+    This closes #126 <https://github.com/strands-project/mongodb_store/issues/126>.
+  * Changed mongodb_log to not wait for topics to be published, instead subscribing to all the other topics
+  * Contributors: Nick Hawes, Nils Bore
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 22 Apr 2015 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.12-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Mon, 09 Feb 2015 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.11-0trusty) trusty; urgency=high
+
+  * Extended usage output string by new command line options
+  * Changed default behaviour back to its former way
+    The 'a' command line parameter now activates throttling; not specifying it makes the logger log all tf transformations.
+  * Added throttling capabilities for high-frequency tf logging
+    Added tf logging throttling capabilities originally introduced in https://github.com/code-iai/ros-mongodb_log. A transform is only logged when either this transform has not been logged before, or when the new version of this transform is sufficiently different from the one logged before. Additional command line parameters can be used to control how throttling is done:
+    * -k <d>: Cartesian (vectorial) distance (in meters) threshold between the old and the new transform
+    * -l <d>: Angular diastance (in deg) threshold between the old and the new transform
+    * -g <d>: At least log every transform every d seconds, even if nothing changed
+    * -a: Always log, don't throttle
+  * Contributors: Jan Winkler
+
+ -- Marc Hanheide <marc@hanheide.net>  Mon, 09 Feb 2015 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.10-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Sun, 23 Nov 2014 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.9-0trusty) trusty; urgency=high
+
+  * Use rospy to remove additional arguments when launched via roslaunch
+  * Contributors: Nils Bore
+
+ -- Marc Hanheide <marc@hanheide.net>  Tue, 18 Nov 2014 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.8-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Tue, 11 Nov 2014 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.7-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Sun, 09 Nov 2014 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.6-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Thu, 06 Nov 2014 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.5-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 05 Nov 2014 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.4-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 29 Oct 2014 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.3-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Tue, 21 Oct 2014 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.2-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Mon, 20 Oct 2014 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.1-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Fri, 17 Oct 2014 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.1.0-0trusty) trusty; urgency=high
+
+  * This adds latched recording and playback to the log and playback nodes.
+    This is the final part of the functionality to close #5 <https://github.com/strands-project/mongodb_store/issues/5>
+  * Added meta logging to other C++ loggers.
+  * Calling on correct document.
+  * Building up type processing knowledge.
+  * Adding meta information to C++-logged documents.
+  * Handlings strings which cannot be treated as UTF-8 as binary.
+  * Moved back to processes to test.
+  * Debugging ulimit issue.
+  * Contributors: Nick Hawes
+
+ -- Marc Hanheide <marc@hanheide.net>  Thu, 16 Oct 2014 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.0.5-0trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Thu, 09 Oct 2014 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.0.4-0trusty) trusty; urgency=high
+
+  * added libssl and libcrypto for ubuntu distros where this is needed due to the static nature of the libmongoclient.a
+  * Contributors: Marc Hanheide
+
+ -- Marc Hanheide <marc@hanheide.net>  Sat, 13 Sep 2014 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.0.3-0trusty) trusty; urgency=high
+
+  * Renamed rosparams datacentre_ to mongodb_.
+    Fixes #69 <https://github.com/strands-project/ros_datacentre/issues/69>
+  * Renamed ros_datacentre to mongodb_store for to fix #69 <https://github.com/strands-project/ros_datacentre/issues/69>.
+  * Contributors: Nick Hawes
+
+ -- Marc Hanheide <marc@hanheide.net>  Mon, 18 Aug 2014 00:00:00 -0000
+
+ros-indigo-mongodb-log (0.0.2-0trusty) trusty; urgency=high
+
+  * Dynamically choose MongoDB API
+    Use Connection if using an older mongopy, otherwise use MongoClient.
+  * Cleaned up boilerplate in mongodb_log package.xml
+    Removed a bunch of XML comments (that came from the package.xml
+    template) from the package.xml file. Added pymongo as a run dependency.
+  * Main process no longer calls init_node.
+    This fixes bugs related to calling init_node multiple times in the same
+    process. Main process now has its own signal handler for shutting down
+    cleanly.
+  * Added 'inserted_at' meta with proper date object to logged data.
+    This added compatibility with message store and also allows native date queries on results.
+  * Changes to how meta info is stored.
+  * Added boost filesystem for new version of ld.
+  * Added mongo dependency
+  * More benchmark removal
+  * REmoved rrd bits.
+  * Removing benchmarking stuff.
+  * Restructuring for new repo position.
+  * Moved all files into mongodb_log subdirectory for later inclusion in a broader package.
+  * Contributors: Alex Bencz, Christian Dondrup, Nick Hawes
+
+ -- Marc Hanheide <marc@hanheide.net>  Thu, 07 Aug 2014 00:00:00 -0000
+
+
