@@ -2,6 +2,9 @@
 Changelog for package libmongocxx_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.1 (2017-08-24)
+------------------
+
 0.2.2 (2017-06-28)
 ------------------
 * fixed wrong install place
