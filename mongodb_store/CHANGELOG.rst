@@ -2,6 +2,21 @@
 Changelog for package mongodb_store
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.3 (2017-09-02)
+------------------
+* Merge pull request `#200 <https://github.com/strands-project/mongodb_store/issues/200>`_ from strands-project/shapeshifter
+  mongodb_store: support shapeshifter
+* Fixed missing space.
+* mongodb_store: support shapeshifter
+* Merge pull request `#195 <https://github.com/strands-project/mongodb_store/issues/195>`_ from mbeneto/kinetic-devel
+  Added keep_trash parameter
+* Added keep_trash parameter
+  This parameter enables the user to select to store the items deleted into the trash (default) or not.
+* Contributors: Furushchev, Nick Hawes, mbeneto
+
+0.3.2 (2017-08-31)
+------------------
+
 0.3.1 (2017-08-24)
 ------------------
 * remove mongoclient libs from CMakeLists
