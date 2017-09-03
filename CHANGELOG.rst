@@ -2,6 +2,9 @@
 Changelog for package mongodb_store
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.4 (2017-09-03)
+------------------
+
 0.3.3 (2017-09-02)
 ------------------
 * Merge pull request `#200 <https://github.com/strands-project/mongodb_store/issues/200>`_ from strands-project/shapeshifter
