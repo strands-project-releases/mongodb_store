@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>mongodb_store</name>
-  <version>0.3.4</version>
+  <version>0.3.5</version>
   <description>A package to support MongoDB-based storage and analysis for data from a ROS system, eg. saved messages, configurations etc</description>
 
   <maintainer email="cburbridge@gmail.com">Chris Burbridge</maintainer>
@@ -39,6 +39,7 @@
   <run_depend>mongodb</run_depend>
   <run_depend>mongodb_store_msgs</run_depend>
   <run_depend>libmongocxx_ros</run_depend>
+  <run_depend>topic_tools</run_depend>
   <!-- Used for examples -->
   <run_depend>geometry_msgs</run_depend>
 
