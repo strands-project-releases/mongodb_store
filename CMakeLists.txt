@@ -4,7 +4,8 @@ project(mongodb_store)
 # include our own cmake files
 #set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/" ${CMAKE_MODULE_PATH})
 
-find_package(catkin REQUIRED COMPONENTS roscpp message_generation rospy std_msgs std_srvs mongodb_store_msgs libmongocxx_ros)
+
+find_package(catkin REQUIRED COMPONENTS roscpp message_generation rospy std_msgs std_srvs mongodb_store_msgs topic_tools libmongocxx_ros)
 
 #find_package(MongoClient REQUIRED)
 
@@ -50,7 +51,7 @@ generate_messages(
 catkin_package(
  INCLUDE_DIRS include
  LIBRARIES message_store #${MongoClient_INCLUDE_DIR}
- CATKIN_DEPENDS libmongocxx_ros mongodb_store_msgs
+ CATKIN_DEPENDS libmongocxx_ros mongodb_store_msgs topic_tools
 # DEPENDS MongoClient
 )
 
