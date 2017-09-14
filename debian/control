@@ -1,0 +1,13 @@
+Source: ros-indigo-mongodb-store
+Section: misc
+Priority: extra
+Maintainer: Chris Burbridge <cburbridge@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), libssl-dev, mongodb, python-catkin-pkg, ros-indigo-catkin, ros-indigo-geometry-msgs, ros-indigo-libmongocxx-ros, ros-indigo-message-generation, ros-indigo-mongodb-store-msgs, ros-indigo-roscpp, ros-indigo-rospy, ros-indigo-rostest, ros-indigo-std-msgs, ros-indigo-std-srvs, ros-indigo-topic-tools
+Homepage: http://www.ros.org/wiki/mongodb_store
+Standards-Version: 3.9.2
+
+Package: ros-indigo-mongodb-store
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, mongodb, python-pymongo, ros-indigo-geometry-msgs, ros-indigo-libmongocxx-ros, ros-indigo-mongodb-store-msgs, ros-indigo-roscpp, ros-indigo-rospy, ros-indigo-std-msgs, ros-indigo-std-srvs, ros-indigo-topic-tools
+Description: A package to support MongoDB-based storage and analysis for data from a ROS system, eg.
+ saved messages, configurations etc
