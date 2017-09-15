@@ -1,0 +1,12 @@
+Source: ros-kinetic-mongodb-log
+Section: misc
+Priority: extra
+Maintainer: Marc Hanheide <marc@hanheide.net>
+Build-Depends: debhelper (>= 9.0.0), libssl-dev, ros-kinetic-catkin, ros-kinetic-libmongocxx-ros, ros-kinetic-mongodb-store, ros-kinetic-rosgraph, ros-kinetic-roslib, ros-kinetic-rospy, ros-kinetic-rostopic, ros-kinetic-sensor-msgs, ros-kinetic-tf
+Homepage: http://ros.org/wiki/mongodb_log
+Standards-Version: 3.9.2
+
+Package: ros-kinetic-mongodb-log
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pymongo, ros-kinetic-libmongocxx-ros, ros-kinetic-mongodb-store, ros-kinetic-rosgraph, ros-kinetic-roslib, ros-kinetic-rospy, ros-kinetic-rostopic, ros-kinetic-sensor-msgs, ros-kinetic-tf
+Description: The mongodb_log package
