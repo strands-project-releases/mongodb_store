@@ -2,6 +2,88 @@
 Changelog for package mongodb_store
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.6 (2017-09-14)
+------------------
+
+0.3.5 (2017-09-03)
+------------------
+* Merge pull request `#203 <https://github.com/strands-project/mongodb_store/issues/203>`_ from strands-project/marc-hanheide-patch-3
+  added `topic_tools`as `CATKIN_DEPEND`
+* topic_tools as run_depend
+* added `topic_tools`as `CATKIN_DEPEND`
+* Contributors: Marc Hanheide
+
+0.3.4 (2017-09-03)
+------------------
+
+0.3.3 (2017-09-02)
+------------------
+* Merge pull request `#200 <https://github.com/strands-project/mongodb_store/issues/200>`_ from strands-project/shapeshifter
+  mongodb_store: support shapeshifter
+* Fixed missing space.
+* mongodb_store: support shapeshifter
+* Merge pull request `#195 <https://github.com/strands-project/mongodb_store/issues/195>`_ from mbeneto/kinetic-devel
+  Added keep_trash parameter
+* Added keep_trash parameter
+  This parameter enables the user to select to store the items deleted into the trash (default) or not.
+* Contributors: Furushchev, Nick Hawes, mbeneto
+
+0.3.2 (2017-08-31)
+------------------
+
+0.3.1 (2017-08-24)
+------------------
+* remove mongoclient libs from CMakeLists
+* Contributors: Bruno Lacerda
+
+
+0.3.0 (2017-08-24)
+------------------
+
+0.2.2 (2017-06-28)
+------------------
+
+0.2.1 (2017-06-28)
+------------------
+
+0.2.0 (2017-06-28)
+------------------
+* dependencies fixing
+* some attempts to build libmongocxx internally
+* indigo-0.1.30
+* updated Changelogs
+* [package.xml] Add link to devel repository
+  Without this, from [the package's wiki page](http://wiki.ros.org/mongodb_store) there's no way to tell where the repo is.
+* fixing error with launching mongodb_store
+* indigo-0.1.29
+* updated Changelogs
+* Support local datacentre timeout
+  The timeout for the datacentre was hardcoded to 10 seconds. However, in
+  some environments, for example in a cloud setup, this may not be enough.
+  Make this configurable and just default to the previous 10 seconds.
+* Merge pull request `#188 <https://github.com/strands-project/mongodb_store/issues/188>`_ from hkaraoguz/projectionerrorfix
+  Projectionerrorfix
+* Fixed updateClient assignment on copy.
+* The projection tests are changed
+* Revert back to original mongodb cmd
+* [mongodb_store/stests/message_store_cpp_test.cpp] fix test for non-wait insert
+* Fixed projection error happening when exclude and include field directives are mixed
+* [mongodb_store] add test for non-wait insert
+* [mongodb_store] add non-wait insert functionality
+* indigo-0.1.28
+* updated Changelogs
+* Mongo C++ header location not exposed.
+  Implemented fix from @ronwalf closes `#176 <https://github.com/strands-project/mongodb_store/issues/176>`_
+* Fixed missing return value
+* Fixing the compatibility issues of messagestore cpp client with old SOMA versions
+* Fixed issue with projection query including fields instead of excluding
+* indigo-0.1.27
+* updated Changelogs
+* [mongodb_store/scripts/mongodb_server.py] connect with localhost when shutdown server
+* Fixed if statement
+* geotype of ROI has been added
+* The geospatial indexing of SOMA ROI objects is added
+* Contributors: Ferdian Jovan, Hakan, Isaac I.Y. Saito, Justin Huang, Marc Hanheide, Nick Hawes, Tim Niemueller, Yuki Furuta
 
 0.1.30 (2017-06-23)
 -------------------
@@ -53,9 +135,6 @@ Changelog for package mongodb_store
 * geotype of ROI has been added
 * The geospatial indexing of SOMA ROI objects is added
 * Contributors: Hakan
-
-
-
 
 0.1.26 (2016-10-14)
 -------------------
