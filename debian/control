@@ -1,0 +1,12 @@
+Source: ros-kinetic-libmongocxx-ros
+Section: misc
+Priority: extra
+Maintainer: Marc Hanheide <marc@hanheide.net>
+Build-Depends: debhelper (>= 9.0.0), ca-certificates, git-core, libboost-all-dev, libssl-dev, ros-kinetic-catkin, ros-kinetic-roscpp, scons
+Homepage: https://github.com/mongodb/mongo-cxx-driver
+Standards-Version: 3.9.2
+
+Package: ros-kinetic-libmongocxx-ros
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libboost-all-dev, libssl-dev, ros-kinetic-roscpp
+Description: A wrapper for the libmongocxx for mongodb_store
