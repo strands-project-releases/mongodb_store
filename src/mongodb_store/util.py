@@ -10,6 +10,8 @@ import StringIO
 from mongodb_store_msgs.msg import SerialisedMessage
 from mongodb_store_msgs.srv import MongoQueryMsgRequest
 
+from pymongo.errors import ConnectionFailure
+
 import importlib
 from datetime import datetime
 
@@ -22,19 +24,26 @@ def check_connection_to_mongod(db_host, db_port):
     """
     if check_for_pymongo():
         try:
-            from pymongo import Connection
-            Connection(db_host, db_port)
-            return True
-        except Exception as e:
-            print("Error: %s" % str(e))
-            print("Could not connect to mongo server %s:%d" % (db_host, db_port))
-            print("Make sure mongod is launched on your specified host/port")
+            try:
+                # pymongo 2.X
+                from pymongo import Connection
+                Connection(db_host, db_port)
+                return True
+            except:
+                # pymongo 3.X
+                from pymongo import MongoClient
+                client = MongoClient(db_host, db_port, connect=False)
+                result = client.admin.command('ismaster')
+                return True
+        except ConnectionFailure:
+            rospy.logerr("Could not connect to mongo server %s:%d" % (db_host, db_port))
+            rospy.logerr("Make sure mongod is launched on your specified host/port")
             return False
     else:
         return False
 
 
-def wait_for_mongo(timeout=60):
+def wait_for_mongo(timeout=60, ns="/datacentre"):
     """
     Waits for the mongo server, as started through the mongodb_store/mongodb_server.py wrapper
 
@@ -43,11 +52,11 @@ def wait_for_mongo(timeout=60):
     """
     # Check that mongo is live, create connection
     try:
-        rospy.wait_for_service("/datacentre/wait_ready", timeout)
+        rospy.wait_for_service(ns + "/wait_ready", timeout)
     except rospy.exceptions.ROSException, e:
         rospy.logerr("Can't connect to MongoDB server. Make sure mongodb_store/mongodb_server.py node is started.")
         return False
-    wait = rospy.ServiceProxy('/datacentre/wait_ready', Empty)
+    wait = rospy.ServiceProxy(ns + '/wait_ready', Empty)
     wait()
     return True
 
@@ -61,9 +70,9 @@ def check_for_pymongo():
     try:
         import pymongo
     except:
-        print("ERROR!!!")
-        print("Can't import pymongo, this is needed by mongodb_store.")
-        print("Make sure it is installed (sudo pip install pymongo)")
+        rospy.logerr("ERROR!!!")
+        rospy.logerr("Can't import pymongo, this is needed by mongodb_store.")
+        rospy.logerr("Make sure it is installed (sudo pip install pymongo)")
         return False
 
     return True
@@ -306,7 +315,7 @@ def fill_message(message, document):
                     setattr(message, slot, lst)
             else:
                 if isinstance(value, unicode):
-                    setattr(message, slot, str(value))
+                    setattr(message, slot, value.encode('utf-8'))
                 else:
                     setattr(message, slot, value)
 
