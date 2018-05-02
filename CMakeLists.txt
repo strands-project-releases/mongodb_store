@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(mongodb_store)
 
-# include our own cmake files
-#set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/" ${CMAKE_MODULE_PATH})
-
 
 find_package(catkin REQUIRED COMPONENTS roscpp message_generation rospy std_msgs std_srvs mongodb_store_msgs topic_tools libmongocxx_ros)
 
@@ -147,6 +144,7 @@ if (CATKIN_ENABLE_TESTING)
   find_package(catkin REQUIRED COMPONENTS rostest)
 
   add_rostest(tests/message_store.test)
+  add_rostest(tests/replication.test)
 
   add_executable(message_store_cpp_test tests/message_store_cpp_test.cpp)
 

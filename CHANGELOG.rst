@@ -2,6 +2,51 @@
 Changelog for package mongodb_store
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.8 (2018-05-02)
+------------------
+* Merge pull request `#220 <https://github.com/strands-project/mongodb_store/issues/220>`_ from furushchev/replication-with-query
+  Replication with query
+* mongodb_store: support filter by query on moving entries
+* Merge pull request `#218 <https://github.com/strands-project/mongodb_store/issues/218>`_ from furushchev/test-replicator
+  Test replication functionality
+* mongodb_store: avoid to use rosrun in test code
+* mongodb_store: test replication
+* mongodb_server: minor bugfix
+* Merge pull request `#213 <https://github.com/strands-project/mongodb_store/issues/213>`_ from furushchev/fix/encode-utf8
+  mongodb_store: encode utf-8 on filling rosmsg
+* Merge remote-tracking branch 'origin/kinetic-devel' into fix/encode-utf8
+* Import connection failure
+* Merge pull request `#214 <https://github.com/strands-project/mongodb_store/issues/214>`_ from furushchev/option-query-extra
+  mongodb_store: message_store_node.py: deprecate using extra servers
+* Merge remote-tracking branch 'origin/kinetic-devel' into option-query-extra
+  Conflicts:
+  mongodb_store/scripts/message_store_node.py
+* Merge pull request `#215 <https://github.com/strands-project/mongodb_store/issues/215>`_ from furushchev/remove-dup-projection
+  mongodb_store: Remove duplicated codes for projection
+* mongodb_store: use launch for test
+* mongodb_store: remove duplicated codes for querying with projection
+* mongodb_store: message_store_node.py: deprecate using extra servers
+* mongodb_store: encode utf-8 on filling rosmsg
+* Merge pull request `#212 <https://github.com/strands-project/mongodb_store/issues/212>`_ from furushchev/fix-query-extra
+  fix error on querying extra servers
+* fix error on querying extra servers
+* Contributors: Furushchev, Nick Hawes, Yuki Furuta
+
+0.3.7 (2017-12-14)
+------------------
+* Merge pull request `#207 <https://github.com/strands-project/mongodb_store/issues/207>`_ from furushchev/fix-mongocxx
+  Use system mongocxx client if possible
+* Merge pull request `#205 <https://github.com/strands-project/mongodb_store/issues/205>`_ from furushchev/pymongo3
+  Support Pymongo 3
+* libmongocxx_ros: try to use system mongocxx lib if possible
+* Merge pull request `#206 <https://github.com/strands-project/mongodb_store/issues/206>`_ from Pikrass/update-rosparam
+  Store the updated value to rosparam when calling set_param
+* Store the updated value to rosparam when calling set_param
+* mongodb_store.util: use rospy.log functions instead of print
+* config_manager.py: fix error on exit
+* support pymongo 3.X
+* Contributors: Bastien Scher, Nick Hawes, Yuki Furuta
+
 0.3.6 (2017-09-14)
 ------------------
 
