@@ -2,6 +2,9 @@
 Changelog for package libmongocxx_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.8 (2018-05-02)
+------------------
+
 0.3.7 (2017-12-14)
 ------------------
 * Merge pull request `#210 <https://github.com/strands-project/mongodb_store/issues/210>`_ from hawesie/kinetic-devel
