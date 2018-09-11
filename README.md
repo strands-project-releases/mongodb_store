@@ -1,3 +1,30 @@
+## mongodb_store (kinetic) - 0.4.2-1
+
+The packages in the `mongodb_store` repository were released into the `kinetic` distro by running `/usr/bin/bloom-release -y --no-web -t kinetic -r kinetic mongodb_store` on `Tue, 11 Sep 2018 00:14:28 -0000`
+
+These packages were released:
+- `libmongocxx_ros`
+- `mongodb_log`
+- `mongodb_store`
+- `mongodb_store_msgs`
+
+Version of package(s) in repository `mongodb_store`:
+
+- upstream repository: https://github.com/strands-project/mongodb_store.git
+- release repository: https://github.com/strands-project-releases/mongodb_store.git
+- rosdistro version: `0.3.5-0`
+- old version: `0.4.2-0`
+- new version: `0.4.2-1`
+
+Versions of tools used:
+
+- bloom version: `0.6.6`
+- catkin_pkg version: `0.4.8`
+- rosdep version: `0.12.2`
+- rosdistro version: `0.6.9`
+- vcstools version: `0.1.40`
+
+
 ## mongodb_store (indigo) - 0.4.2-0
 
 The packages in the `mongodb_store` repository were released into the `indigo` distro by running `/usr/bin/bloom-release mongodb_store -t indigo -r indigo` on `Mon, 04 Jun 2018 06:29:19 -0000`
