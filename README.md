@@ -1,3 +1,29 @@
+## mongodb_store (melodic) - 0.5.0-3
+
+The packages in the `mongodb_store` repository were released into the `melodic` distro by running `/usr/bin/bloom-release mongodb_store -t melodic -r melodic` on `Thu, 24 Jan 2019 09:47:13 -0000`
+
+These packages were released:
+- `mongodb_log`
+- `mongodb_store`
+- `mongodb_store_msgs`
+
+Version of package(s) in repository `mongodb_store`:
+
+- upstream repository: https://github.com/strands-project/mongodb_store.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `0.5.0-2`
+- new version: `0.5.0-3`
+
+Versions of tools used:
+
+- bloom version: `0.7.1`
+- catkin_pkg version: `0.4.7`
+- rosdep version: `0.12.2`
+- rosdistro version: `0.7.1`
+- vcstools version: `0.1.40`
+
+
 ## mongodb_store (melodic) - 0.5.0-2
 
 The packages in the `mongodb_store` repository were released into the `melodic` distro by running `/usr/bin/bloom-release mongodb_store -t melodic -r melodic` on `Thu, 24 Jan 2019 09:42:20 -0000`
