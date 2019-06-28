@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-from __future__ import absolute_import
-from future.utils import iteritems
 
 import roslib; roslib.load_manifest('mongodb_store')
 import rospy
@@ -8,24 +6,12 @@ import sys
 import os
 import collections
 import json
-import platform
-
-if float(platform.python_version()[0:2]) >= 3.0:
-    import xmlrpc.client
-    xmlrpclib = xmlrpc.client
-    _PY3 = True
-else:
-    import xmlrpclib
-    _PY3 = False
-
+import xmlrpclib
 from bson.binary import Binary
 
-import mongodb_store
 import mongodb_store.util
-from mongodb_store.srv import (
-    GetParam, GetParamResponse,
-    SetParam, SetParamResponse
-)
+
+from mongodb_store.srv import *
 from std_srvs.srv import *
 import rosparam
 
@@ -44,10 +30,10 @@ class MongoTransformer(pymongo.son_manipulator.SONManipulator):
         if isinstance(son, list):
             return self.transform_incoming_list(son, collection)
         elif isinstance(son, dict):
-           for (key, value) in son.items():
+            for (key, value) in son.items():
                 son[key] = self.transform_incoming(value, collection)
         elif isinstance(son, xmlrpclib.Binary):
-            return {'__xmlrpclib_object': 'xmlrpclib.Binary',
+            return {'__xmlrpclib_object':'xmlrpclib.Binary',
                    'data': Binary(son.data)}
         return son
 
@@ -103,7 +89,7 @@ class ConfigManager(object):
         try:
             path = rospy.get_param("~defaults_path")
             if len(path)==0:
-                raise RuntimeError("No Path found")
+                raise
         except:
             rospy.loginfo("Default parameters path not supplied, assuming none.")
         else:
@@ -114,7 +100,7 @@ class ConfigManager(object):
                 pkg_dir=parts[1]
                 try:
                     path = os.path.join(roslib.packages.get_pkg_dir(pkg), pkg_dir)
-                except roslib.packages.InvalidROSPkgException as e:
+                except roslib.packages.InvalidROSPkgException, e:
                     rospy.logerr("Supplied defaults path '%s' cannot be found. \n"%path +
                                  "The ROS package '%s' could not be located."%pkg)
                     sys.exit(1)
@@ -123,13 +109,13 @@ class ConfigManager(object):
                 sys.exit(1)
             try:
                 files = os.listdir(path)
-            except OSError as e:
+            except OSError, e:
                 rospy.logerr("Can't list defaults directory %s. Check permissions."%path)
                 sys.exit(1)
             defaults=[]  # a list of 3-tuples, (param, val, originating_filename)
             def flatten(d, c="", f_name="" ):
                 l=[]
-                for k, v in iteritems(d):
+                for k, v in d.iteritems():
                     if isinstance(v, collections.Mapping):
                         l.extend(flatten(v,c+"/"+k, f_name))
                     else:
@@ -182,11 +168,17 @@ class ConfigManager(object):
             name=param["path"]
             val=param["value"]
             if local_collection.find_one({"path":name}) is None:
-                rospy.set_param(name,val)
+                if val is not None:
+                    rospy.set_param(name,val)
+                else:
+                    rospy.logerr("Unable to set parameter %, its value is None.", name)
         for param in local_collection.find():
             name=param["path"]
             val=param["value"]
-            rospy.set_param(name,val)
+            if val is not None:
+                rospy.set_param(name,val)
+            else:
+                rospy.logerr("Unable to set parameter %, its value is None.", name)
 
 
         # Advertise ros services for parameter setting / getting
@@ -200,6 +192,9 @@ class ConfigManager(object):
                                            SetParam,
                                            self._saveparam_srv_cb)
 
+        self._resetparams_srv = rospy.Service("/config_manager/reset_params",
+                                           Trigger,
+                                           self._resetparams_srv_cb)
         #self._list_params()
 
         # Start the main loop
@@ -209,13 +204,15 @@ class ConfigManager(object):
     debug function, prints out all parameters known
     """
     def _list_params(self):
-        print("#"*10,"\nDefaults:\n")
+        print "#"*10
+        print "Defaults:"
+        print
         for param in self._database.defaults.find():
             name=param["path"]
             val=param["value"]
             filename=param["from_file"]
-            print(name, " "*(30-len(name)),val," "*(30-len(str(val))),filename)
-        print()
+            print name, " "*(30-len(name)),val," "*(30-len(str(val))),filename
+        print
 
 
     def _on_node_shutdown(self):
@@ -246,14 +243,14 @@ class ConfigManager(object):
     def _setparam_srv_cb(self,req):
         print ("parse json")
         new = json.loads(req.param)
-        if _PY3:
-            if not ("path" in new and "value" in new):
-                rospy.logerr("Trying to set parameter but not giving full spec")
-                return SetParamResponse(False)
-        else:
-            if not (new.has_key("path") and new.has_key("value")):
-                rospy.logerr("Trying to set parameter but not giving full spec")
-                return SetParamResponse(False)
+        if not (new.has_key("path") and new.has_key("value")):
+            rospy.logerr("Trying to set parameter but not giving full spec")
+            return SetParamResponse(False)
+
+        if new["value"] is None:
+            rospy.logerr("Unable to set parameter to None.")
+            return SetParamResponse(False)
+
         config_db_local = self._database.local
         value = config_db_local.find_one({"path":new["path"]}, manipulate=False)
         if value is None:
@@ -287,6 +284,31 @@ class ConfigManager(object):
             config_db_local.update(value, new, manipulate=True)
 
         return SetParamResponse(True)
+
+    # Reset all parameters to their default value by wiping all entries in the local database
+    def _resetparams_srv_cb(self, req):
+        defaults_collection = self._database.defaults
+        local_collection = self._database.local
+
+        # Delete all parameters found in the local database but not in the defaults collection
+        # This happens when someone uses SetParam for a parameter not defined in defaults.
+        for param in local_collection.find():
+            name = param["path"]
+            exist_in_defaults = defaults_collection.find_one({"path": name}, manipulate=False)
+            if not exist_in_defaults:
+                rospy.delete_param(name)
+
+        # Delete all entries in local database
+        self._database.local.delete_many({})
+
+        # Apply all default values onto the ros parameter server
+        # resetting / overwriting local values on parameter server.
+        for param in defaults_collection.find():
+            name = param["path"]
+            val = param["value"]
+            rospy.set_param(name, val)
+
+        return TriggerResponse(success=True, message='')
 
 
 if __name__ == '__main__':

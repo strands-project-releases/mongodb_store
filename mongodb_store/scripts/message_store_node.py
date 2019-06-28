@@ -1,32 +1,34 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, print_function
-from future.utils import iteritems
+
 """
 Provides a service to store ROS message objects in a mongodb database in JSON.
 """
 
+import genpy
 import rospy
+import mongodb_store_msgs.srv as dc_srv
+import mongodb_store.util as dc_util
 import pymongo
 from pymongo import GEO2D
 import json
 from bson import json_util
+from mongodb_store_msgs.msg import  StringPair, StringPairList, Insert
 from bson.objectid import ObjectId
 from datetime import *
+from tf2_msgs.msg import TFMessage
 
-import mongodb_store_msgs.srv as dc_srv
-import mongodb_store.util  as dc_util
-from mongodb_store_msgs.msg import  StringPair, StringPairList, Insert
 
 MongoClient = dc_util.import_MongoClient()
+
 
 class MessageStore(object):
     def __init__(self, replicate_on_write=False):
 
         use_daemon = rospy.get_param('mongodb_use_daemon', False)
-        # If you want to use a remote datacenter, then it should be set as false
-        use_localdatacenter = rospy.get_param('~mongodb_use_localdatacenter', True)
-        local_timeout = rospy.get_param('~local_timeout', 10)
+	# If you want to use a remote datacenter, then it should be set as false
+	use_localdatacenter = rospy.get_param('~mongodb_use_localdatacenter', True)
+	local_timeout = rospy.get_param('~local_timeout', 10)
         if str(local_timeout).lower() == "none":
             local_timeout = None
 
@@ -65,7 +67,7 @@ class MessageStore(object):
             for extra in extras:
                 try:
                     self.extra_clients.append(MongoClient(extra[0], extra[1]))
-                except pymongo.errors.ConnectionFailure as e:
+                except pymongo.errors.ConnectionFailure, e:
                     rospy.logwarn('Could not connect to extra datacentre at %s:%s' % (extra[0], extra[1]))
             rospy.loginfo('Replicating content to a futher %s datacentres',len(self.extra_clients))
 
@@ -80,6 +82,7 @@ class MessageStore(object):
                                            self.insert_ros_msg,
                                            queue_size=self.queue_size)
 
+
     def insert_ros_msg(self, msg):
         """
         Receives a message published
@@ -87,35 +90,53 @@ class MessageStore(object):
         # actually procedure is the same
         self.insert_ros_srv(msg)
 
+
     def insert_ros_srv(self, req):
         """
         Receives a
         """
+
+
         # deserialize data into object
         obj = dc_util.deserialise_message(req.message)
         # convert input tuple to dict
         meta = dc_util.string_pair_list_to_dictionary(req.meta)
         # get requested collection from the db, creating if necessary
         collection = self._mongo_client[req.database][req.collection]
-        # check if the object has the location attribute
-        if hasattr(obj, 'pose'):
-            # if it does create a location index
-            collection.create_index([("loc", pymongo.GEO2D)])
 
+	#check if the object has the location attribute
+	if hasattr(obj, 'pose'):
+	   # if it does create a location index
+    	   collection.create_index([("loc", pymongo.GEO2D)])
         #check if the object has the location attribute
-        if hasattr(obj, 'geotype'):
-            # if it does create a location index
-            collection.create_index([("geoloc", pymongo.GEOSPHERE)])
+	if hasattr(obj, 'geotype'):
+	   # if it does create a location index
+    	   collection.create_index([("geoloc", pymongo.GEOSPHERE)])
 
-        # check if the object has the timestamp attribute TODO ?? really necessary
-        # if hasattr(obj, 'logtimestamp'):
-        # if it does create a location index
-        #  collection.create_index([("datetime", pymongo.GEO2D)])
+	#check if the object has the timestamp attribute TODO ?? really necessary
+	#if hasattr(obj, 'logtimestamp'):
+	   # if it does create a location index
+    	 #  collection.create_index([("datetime", pymongo.GEO2D)])
+
 
         # try:
-        meta['inserted_at'] = datetime.utcfromtimestamp(rospy.get_rostime().to_sec())
+        stamp = rospy.get_rostime()
+        meta['inserted_at'] = datetime.utcfromtimestamp(stamp.to_sec())
         meta['inserted_by'] = req._connection_header['callerid']
+        if hasattr(obj, "header") and hasattr(obj.header, "stamp") and\
+           isinstance(obj.header.stamp, genpy.Time):
+            stamp = obj.header.stamp
+        elif isinstance(obj, TFMessage):
+            if obj.transforms:
+                transforms = sorted(obj.transforms,
+                                    key=lambda m: m.header.stamp, reverse=True)
+                stamp = transforms[0].header.stamp
+
+        meta['published_at'] = datetime.utcfromtimestamp(stamp.to_sec())
+        meta['timestamp'] = stamp.to_nsec()
+
         obj_id = dc_util.store_message(collection, obj, meta)
+
 
         if self.replicate_on_write:
             # also do insert to extra datacentres, making sure object ids are consistent
@@ -197,15 +218,18 @@ class MessageStore(object):
         return str(obj_id), altered
     update_ros_srv.type=dc_srv.MongoUpdateMsg
 
+
     def to_query_dict(self, message_query, meta_query):
         """
         Decodes and combines the given StringPairList queries into a single mongodb query
         """
         obj_query = dc_util.string_pair_list_to_dictionary(message_query)
         bare_meta_query = dc_util.string_pair_list_to_dictionary(meta_query)
-        for (k, v) in iteritems(bare_meta_query):
+        for (k, v) in bare_meta_query.iteritems():
             obj_query["_meta." + k] = v
+
         return obj_query
+
 
     def query_messages_ros_srv(self, req):
         """
@@ -226,13 +250,12 @@ class MessageStore(object):
         # this is a list of entries in dict format including meta
         sort_query_dict = dc_util.string_pair_list_to_dictionary(req.sort_query)
         sort_query_tuples = []
-        for k, v in iteritems(sort_query_dict):
+        for k,v in sort_query_dict.iteritems():
             try:
                 sort_query_tuples.append((k, int(v)))
             except ValueError:
                 sort_query_tuples.append((k,v))
-               # this is a list of entries in dict format including meta
-
+                # this is a list of entries in dict format including meta
 
         projection_query_dict = dc_util.string_pair_list_to_dictionary(req.projection_query)
         projection_meta_dict  = dict()

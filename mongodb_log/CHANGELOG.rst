@@ -2,15 +2,16 @@
 Changelog for package mongodb_log
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.5.1 (2019-06-28)
+0.4.5 (2019-06-28)
 ------------------
 
-0.5.0 (2018-12-20)
+0.4.3 (2019-04-04)
 ------------------
-* Merge pull request `#231 <https://github.com/strands-project/mongodb_store/issues/231>`_ from bbferka/melodic-devel
-  Melodic devel
-* back to system mongo
-* Contributors: Ferenc Balint-Benczedi, Nick Hawes
+* Merge pull request `#238 <https://github.com/strands-project/mongodb_store/issues/238>`_ from charlielito/patch-1
+  Fix typo in log message
+* Fix typo in log message
+  It is subscribe rather than subsribe
+* Contributors: Carlos Andrés Álvarez Restrepo, Nick Hawes
 
 0.4.2 (2018-06-04)
 ------------------

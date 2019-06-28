@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from __future__ import absolute_import
+
 import rospy
 import subprocess
 import sys
@@ -9,11 +9,6 @@ import signal
 import errno
 from std_srvs.srv import Empty, EmptyResponse
 import shutil
-import platform
-if float(platform.python_version()[0:2]) >= 3.0:
-    _PY3 = True
-else:
-    _PY3 = False
 
 import mongodb_store.util
 
@@ -43,6 +38,7 @@ class MongoServer(object):
 
         self.test_mode = rospy.get_param("~test_mode", False)
         self.repl_set = rospy.get_param("~repl_set", None)
+        self.bind_to_host = rospy.get_param("~bind_to_host", False)
 
 
         if self.test_mode:
@@ -84,7 +80,7 @@ class MongoServer(object):
         # Check that mongodb is installed
         try:
             mongov = subprocess.check_output(["mongod","--version"])
-            match = re.search("db version v(\d+\.\d+\.\d+)", mongov.decode('utf-8'))
+            match = re.search("db version v(\d+\.\d+\.\d+)",mongov)
             self._mongo_version=match.group(1)
         except subprocess.CalledProcessError:
             rospy.logerr("Can't find MongoDB executable. Is it installed?\nInstall it with  \"sudo apt-get install mongodb\"")
@@ -105,6 +101,8 @@ class MongoServer(object):
         # Start the mongodb server
         self._mongo_loop()
 
+
+
     def _mongo_loop(self):
 
         # Blocker to prevent Ctrl-C being passed to the mongo server
@@ -114,6 +112,11 @@ class MongoServer(object):
 
         #cmd = ["mongod","--dbpath",self._db_path,"--port",str(self._mongo_port),"--smallfiles","--bind_ip","127.0.0.1"]
         cmd = ["mongod","--dbpath",self._db_path,"--port",str(self._mongo_port),"--smallfiles"]
+
+        if self.bind_to_host:
+            cmd.append("--bind_ip")
+            cmd.append(self._mongo_host)
+
         if self.repl_set is not None:
             cmd.append("--replSet")
             cmd.append(self.repl_set)
@@ -123,14 +126,14 @@ class MongoServer(object):
 
         while self._mongo_process.poll() is None:# and not rospy.is_shutdown():
             try:
-                stdout = self._mongo_process.stdout.readline().decode('utf-8')
-            except IOError as e: # probably interupt because shutdown cut it up
+                stdout = self._mongo_process.stdout.readline()
+            except IOError, e: # probably interupt because shutdown cut it up
                 if e.errno == errno.EINTR:
                     continue
                 else:
                     raise
             if stdout is not None:
-                if stdout.find("ERROR") != -1:
+                if stdout.find("ERROR") !=-1:
                     rospy.logerr(stdout.strip())
                 else:
                     rospy.loginfo(stdout.strip())
@@ -170,7 +173,7 @@ class MongoServer(object):
         if self.test_mode:  # remove auto-created DB in the /tmp folder
             try:
                 shutil.rmtree(self.default_path)
-            except Exception as e:
+            except Exception,e:
                 rospy.logerr(e)
 
     def _shutdown_srv_cb(self,req):
