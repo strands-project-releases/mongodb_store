@@ -2,6 +2,21 @@
 Changelog for package mongodb_log
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.5.2 (2019-11-11)
+------------------
+* back to system mongo
+* Contributors: Ferenc Balint-Benczedi, Nick Hawes, Shingo Kitagawa, Volker Gabler
+
+0.5.1 (2019-06-28)
+------------------
+
+0.5.0 (2018-12-20)
+------------------
+* Merge pull request `#231 <https://github.com/strands-project/mongodb_store/issues/231>`_ from bbferka/melodic-devel
+  Melodic devel
+* back to system mongo
+* Contributors: Ferenc Balint-Benczedi, Nick Hawes
+
 0.4.5 (2019-06-28)
 ------------------
 

@@ -2,6 +2,46 @@
 Changelog for package mongodb_store
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.5.2 (2019-11-11)
+------------------
+* added python-future to package.xml, which got lost in previous commit for some reasons ...
+* corrected typo
+* removed flags for most of files for simplicity, also included future.utils, may introduce undesireable dependency though
+* resolved python2 backward compatibility issues
+  not thouroughly checked though
+  Added python version checks, where needed.
+  Changes not adjusted to version:
+  - print always with brackets
+  - excepti XXX, e ==> except XXX as e
+  as there is no problem with python2 to best of my knowledge
+* adjusted python funtions for python3
+* add dependency to package xml
+* back to system mongo
+* Contributors: Ferenc Balint-Benczedi, Nick Hawes, Shingo Kitagawa, Volker Gabler, vgab
+
+0.5.1 (2019-06-28)
+------------------
+* added python-future to package.xml
+* removed flags for most of files for simplicity, also included future.utils, may introduce undesireable dependency though
+* resolved python2 backward compatibility issues
+  not thouroughly checked though
+  Added python version checks, where needed.
+  Changes not adjusted to version:
+  - print always with brackets
+  - excepti XXX, e ==> except XXX as e
+  as there is no problem with python2 to best of my knowledge
+* adjusted python funtions for python3
+* Contributors: Shingo Kitagawa, Volker Gabler
+
+0.5.0 (2018-12-20)
+------------------
+* Merge pull request `#231 <https://github.com/strands-project/mongodb_store/issues/231>`_ from bbferka/melodic-devel
+  Melodic devel
+* add dependency to package xml
+* make it run
+* back to system mongo
+* Contributors: Ferenc Balint-Benczedi, Nick Hawes
+
 0.4.5 (2019-06-28)
 ------------------
 

@@ -2,6 +2,19 @@
 Changelog for package mongodb_store_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.5.2 (2019-11-11)
+------------------
+
+* Contributors: Nick Hawes, Shingo Kitagawa, Volker Gabler
+
+0.5.1 (2019-06-28)
+------------------
+* Merge remote-tracking branch 'orginal/melodic-devel' into melodic-devel-py3
+* Contributors: Volker Gabler
+
+0.5.0 (2018-12-20)
+------------------
+
 0.4.5 (2019-06-28)
 ------------------
 
