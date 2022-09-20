@@ -114,11 +114,15 @@ class MongoServer(object):
 #            signal.signal(signal.SIGINT, signal.SIG_IGN)
 
         #cmd = ["mongod","--dbpath",self._db_path,"--port",str(self._mongo_port),"--smallfiles","--bind_ip","127.0.0.1"]
-        cmd = ["mongod","--dbpath",self._db_path,"--port",str(self._mongo_port),"--smallfiles"]
+        cmd = ["mongod","--dbpath",self._db_path,"--port",str(self._mongo_port)]
 
         if self.bind_to_host:
             cmd.append("--bind_ip")
             cmd.append(self._mongo_host)
+        else:
+            cmd.append("--bind_ip")
+            cmd.append("0.0.0.0")
+            
 
         if self.repl_set is not None:
             cmd.append("--replSet")
@@ -156,15 +160,15 @@ class MongoServer(object):
             rospy.logerr("Mongo process error! Exit code="+str(self._mongo_process.returncode))
 
         self._gone_down = True
-        self._ready=False
 
     def _on_node_shutdown(self):
         rospy.loginfo("Shutting down datacentre")
+        self._ready=False
         if self._gone_down:
             rospy.logwarn("It looks like Mongo already died. Watch out as the DB might need recovery time at next run.")
             return
         try:
-            c = MongoClient(port=self._mongo_port)
+            c = MongoClient(host=self._mongo_host, port=self._mongo_port)
         except pymongo.errors.ConnectionFailure:
             c = None
         try:
