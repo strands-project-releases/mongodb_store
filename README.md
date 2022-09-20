@@ -1,3 +1,29 @@
+## mongodb_store (noetic) - 0.6.0-1
+
+The packages in the `mongodb_store` repository were released into the `noetic` distro by running `/usr/bin/bloom-release --rosdistro noetic --track noetic mongodb_store --edit` on `Tue, 20 Sep 2022 13:35:08 -0000`
+
+These packages were released:
+- `mongodb_log`
+- `mongodb_store`
+- `mongodb_store_msgs`
+
+Version of package(s) in repository `mongodb_store`:
+
+- upstream repository: https://github.com/strands-project/mongodb_store.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `0.6.0-1`
+
+Versions of tools used:
+
+- bloom version: `0.11.2`
+- catkin_pkg version: `0.4.24`
+- rosdep version: `0.21.0`
+- rosdistro version: `0.8.3`
+- vcstools version: `0.1.42`
+
+
 ## mongodb_store (melodic) - 0.5.2-1
 
 The packages in the `mongodb_store` repository were released into the `melodic` distro by running `/usr/bin/bloom-release mongodb_store -t melodic -r melodic` on `Mon, 11 Nov 2019 08:10:54 -0000`
