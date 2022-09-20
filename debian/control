@@ -1,0 +1,13 @@
+Source: ros-noetic-mongodb-store
+Section: misc
+Priority: optional
+Maintainer: Nick Hawes <nickh@robots.ox.ac.uk>
+Build-Depends: debhelper (>= 9.0.0), libmongoclient-dev, libssl-dev, mongodb, python3-catkin-pkg, ros-noetic-catkin, ros-noetic-geometry-msgs, ros-noetic-message-generation, ros-noetic-mongodb-store-msgs, ros-noetic-roscpp, ros-noetic-rospy, ros-noetic-rostest, ros-noetic-std-msgs, ros-noetic-std-srvs, ros-noetic-topic-tools
+Homepage: http://www.ros.org/wiki/mongodb_store
+Standards-Version: 3.9.2
+
+Package: ros-noetic-mongodb-store
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libmongoclient-dev, mongodb, python3-future, python3-pymongo, ros-noetic-geometry-msgs, ros-noetic-mongodb-store-msgs, ros-noetic-roscpp, ros-noetic-rospy, ros-noetic-std-msgs, ros-noetic-std-srvs, ros-noetic-topic-tools
+Description: A package to support MongoDB-based storage and analysis for data from a ROS system, eg.
+ saved messages, configurations etc
