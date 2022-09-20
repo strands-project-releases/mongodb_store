@@ -1,0 +1,12 @@
+Source: ros-noetic-mongodb-log
+Section: misc
+Priority: optional
+Maintainer: Marc Hanheide <marc@hanheide.net>
+Build-Depends: debhelper (>= 9.0.0), libssl-dev, ros-noetic-catkin, ros-noetic-mongodb-store, ros-noetic-rosgraph, ros-noetic-roslib, ros-noetic-rospy, ros-noetic-rostopic, ros-noetic-sensor-msgs, ros-noetic-tf
+Homepage: http://ros.org/wiki/mongodb_log
+Standards-Version: 3.9.2
+
+Package: ros-noetic-mongodb-log
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python3-pymongo, ros-noetic-mongodb-store, ros-noetic-rosgraph, ros-noetic-roslib, ros-noetic-rospy, ros-noetic-rostopic, ros-noetic-sensor-msgs, ros-noetic-tf
+Description: The mongodb_log package
